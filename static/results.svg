@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 460">
+  <rect width="760" height="460" rx="24" fill="#ffffff"/>
+  <text x="40" y="52" font-family="Inter,Arial" font-size="24" font-weight="800" fill="#0f172a">Full-task Success Rate</text>
+  <g transform="translate(82,76)" font-family="Inter,Arial">
+    <line x1="0" y1="310" x2="610" y2="310" stroke="#cbd5e1"/>
+    <line x1="0" y1="0" x2="0" y2="310" stroke="#cbd5e1"/>
+    <g fill="#94a3b8" font-size="12">
+      <text x="-28" y="314">0</text><text x="-35" y="210">10</text><text x="-35" y="107">20</text><text x="-35" y="5">30</text>
+    </g>
+    <g stroke="#e2e8f0"><line x1="0" y1="207" x2="610" y2="207"/><line x1="0" y1="103" x2="610" y2="103"/></g>
+    <g fill="#cbd5e1"><rect x="20" y="186" width="60" height="124" rx="10"/><rect x="120" y="186" width="60" height="124" rx="10"/><rect x="220" y="155" width="60" height="155" rx="10"/><rect x="320" y="93" width="60" height="217" rx="10"/><rect x="420" y="72" width="60" height="238" rx="10"/></g>
+    <rect x="520" y="21" width="60" height="289" rx="10" fill="#2563eb"/>
+    <g fill="#0f172a" font-size="12" text-anchor="middle"><text x="50" y="336">π0.5</text><text x="150" y="336">TA-VLA</text><text x="250" y="336">ForceVLA</text><text x="350" y="336">w/o RL</text><text x="450" y="336">RLT</text><text x="550" y="336" font-weight="700">TORL</text></g>
+    <g fill="#0f172a" font-size="13" text-anchor="middle" font-weight="700"><text x="50" y="178">12</text><text x="150" y="178">12</text><text x="250" y="147">15</text><text x="350" y="85">21</text><text x="450" y="64">23</text><text x="550" y="13">28</text></g>
+  </g>
+</svg>
