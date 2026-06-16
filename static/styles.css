@@ -172,6 +172,24 @@ a {
   color: #fff;
 }
 
+.btn.disabled {
+  cursor: default;
+  border-color: #c4d2e6;
+  background: linear-gradient(180deg, #f8fbff 0%, #e6edf7 100%);
+  color: #51627d;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92), 0 8px 18px rgba(31, 102, 209, 0.08);
+}
+
+.btn.disabled:hover {
+  transform: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92), 0 8px 18px rgba(31, 102, 209, 0.08);
+}
+
+.btn.disabled span {
+  background: #dbe5f2;
+  color: #52627c;
+}
+
 .section {
   padding: 66px 0;
   scroll-margin-top: 24px;
@@ -183,17 +201,25 @@ a {
 }
 
 .section-heading {
-  max-width: 790px;
+  max-width: 100%;
   margin-bottom: 26px;
 }
 
 .section-heading > p:not(.eyebrow) {
+  max-width: none;
+  width: 100%;
   font-size: 19px;
 }
 
 .section-heading.centered {
+  max-width: 860px;
   margin-inline: auto;
   text-align: center;
+}
+
+.section-heading.centered > p:not(.eyebrow) {
+  max-width: 840px;
+  margin-inline: auto;
 }
 
 h2 {

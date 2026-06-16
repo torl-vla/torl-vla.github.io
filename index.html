@@ -40,6 +40,7 @@
         <a class="btn primary" href="assets/TORL-VLA.pdf"><span>PDF</span> Paper</a>
         <a class="btn" href="https://arxiv.org/abs/2606.09337" target="_blank" rel="noreferrer"><span>arXiv</span> Preprint</a>
         <a class="btn" href="#video"><span>Play</span> Project Video</a>
+        <span class="btn disabled" role="link" aria-disabled="true"><span>Code</span> Coming Soon</span>
         <a class="btn" href="https://github.com/Yyshadow/openpi-RLT" target="_blank" rel="noreferrer"><span>Code</span> Our RLT Repro</a>
         <a class="btn muted" href="#citation"><span>Bib</span> BibTeX</a>
       </div>
@@ -98,8 +99,8 @@
             <h3>Core Contributions</h3>
             <div class="idea-list">
               <article>
-                <strong>Action-and-wrench references</strong>
-                <span>Predicts executable action chunks together with future wrench sequences.</span>
+                <strong>Wrench-aware VLA reference</strong>
+                <span>Fuses tactile-derived wrench history through MoE routing and a gated bypass to produce action references with future wrench cues.</span>
               </article>
               <article>
                 <strong>Stage-specific online refinement</strong>
@@ -504,9 +505,9 @@
 
         <section id="analysis" class="section">
           <div class="section-heading">
-            <p class="eyebrow">Analysis</p>
-            <h2>Wrench, Routing, and IC Critic Analysis</h2>
-            <p>These appendix analyses inspect measured wrench evolution, future-wrench prediction, stage routing, and IC critic behavior. They are process diagnostics, not additional final autonomous evaluation metrics.</p>
+            <p class="eyebrow">Analysis &amp; Details</p>
+            <h2>Analysis and Implementation Details</h2>
+            <p>These materials inspect measured wrench evolution, future-wrench prediction, intervention-censored critic behavior, stage routing, and deployment implementation. They are process diagnostics and setup details, not additional final autonomous evaluation metrics.</p>
           </div>
 
           <div class="accordion">
@@ -653,7 +654,7 @@
             </details>
 
             <details open>
-              <summary>Stage routing and deployment details</summary>
+              <summary>Stage routing details</summary>
               <div class="details-body">
                 <figure class="figure-wide compact-figure portrait-figure">
                   <img src="static/native/stage_estimator_architecture.png" alt="Stage estimator architecture." loading="lazy" />
@@ -663,6 +664,12 @@
                   <img src="static/native/combined_latch_contact.png" alt="Full-task stage routing alignment between ground-truth annotations and estimated routes." loading="lazy" />
                   <figcaption>Full-task routing trace. Estimated routes align with ground-truth contact-window annotations; remaining mismatches concentrate near gradual phase boundaries rather than stable task stages.</figcaption>
                 </figure>
+              </div>
+            </details>
+
+            <details>
+              <summary>Deployment and implementation details</summary>
+              <div class="details-body">
                 <div class="table-pair">
                   <div class="table-wrap">
                     <table>
@@ -719,12 +726,13 @@
           <div class="section-heading">
             <p class="eyebrow">Citation</p>
             <h2>Resources and BibTeX</h2>
-            <p>Our earlier open-source RLT reproduction is available at Yyshadow/openpi-RLT. Readers interested in reference-guided online RL can follow that implementation first.</p>
+            <p>TORL-VLA code will be released. Our earlier open-source RLT reproduction, Yyshadow/openpi-RLT, is already available for readers interested in reference-guided online RL.</p>
           </div>
           <div class="resource-row">
             <a class="btn primary" href="assets/TORL-VLA.pdf"><span>PDF</span> Paper</a>
             <a class="btn" href="assets/TORL-VLA-Appendix.pdf"><span>PDF</span> Supplementary</a>
             <a class="btn" href="https://arxiv.org/abs/2606.09337" target="_blank" rel="noreferrer"><span>arXiv</span> Preprint</a>
+            <span class="btn disabled" role="link" aria-disabled="true"><span>Code</span> Coming Soon</span>
             <a class="btn" href="https://github.com/Yyshadow/openpi-RLT" target="_blank" rel="noreferrer"><span>Code</span> Our RLT Reproduction</a>
           </div>
           <pre><code>@article{zheng2026torlvla,
