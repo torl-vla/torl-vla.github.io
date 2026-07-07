@@ -59,7 +59,10 @@
         <a class="toc-child" href="#performance">Main Results</a>
         <a class="toc-child" href="#ablations">Ablations</a>
         <a class="toc-grandchild" href="#online-curves">Online Curves</a>
-        <a href="#analysis">Analysis</a>
+        <a href="#supplementary-experiments">Supplementary</a>
+        <a class="toc-child" href="#supplementary-reference">Tactile Reference</a>
+        <a class="toc-child" href="#supplementary-rl">Online RL Refinement</a>
+        <a href="#analysis">Analysis &amp; Details</a>
         <a href="#citation">Resources</a>
       </aside>
 
@@ -500,6 +503,293 @@
               </figure>
             </div>
           </section>
+          </section>
+        </section>
+
+        <section id="supplementary-experiments" class="section supplementary-section">
+          <div class="section-heading">
+            <p class="eyebrow">Supplementary Experiments</p>
+            <h2>Supplementary Contact Tasks</h2>
+            <p>Beyond the latch-box benchmark, we add seven supplementary real-robot contact-rich tasks. On five tasks, we compare the base &pi;<sub>0.5</sub> policy with a wrench-aware reference model that incorporates tactile-derived wrench observations and jointly predicts action references with future-wrench cues. On Block Placement and Tube Placement, where fine contact adjustment after initial contact is more critical, we further evaluate online RL refinement on top of the wrench-aware reference.</p>
+          </div>
+
+          <section id="supplementary-reference" class="subsection">
+            <div class="section-heading">
+              <h2>Wrench-Aware Reference</h2>
+              <p>These five tasks evaluate the wrench-aware reference model before online RL. The comparison focuses on whether tactile-derived wrench conditioning and future-wrench prediction improve contact-aware VLA execution without online refinement.</p>
+            </div>
+
+            <div class="supplement-tabs" data-supplement-tabs>
+              <div class="supplement-tab-list" role="tablist" aria-label="Tactile-aware reference task selector">
+                <button class="supplement-tab active" type="button" data-tab-target="tactile-bottle" aria-selected="true">Bottle Reorientation</button>
+                <button class="supplement-tab" type="button" data-tab-target="tactile-cup" aria-selected="false">Cup Grasping</button>
+                <button class="supplement-tab" type="button" data-tab-target="tactile-pingpong" aria-selected="false">Ping-pong Ball</button>
+                <button class="supplement-tab" type="button" data-tab-target="tactile-jelly" aria-selected="false">Jelly Grasping</button>
+                <button class="supplement-tab" type="button" data-tab-target="tactile-whiteboard" aria-selected="false">Whiteboard Erasing</button>
+              </div>
+
+              <div class="supplement-panel active" data-tab-panel="tactile-bottle">
+                <div class="supplement-brief">
+                  <div>
+                    <h3>Bottle Reorientation</h3>
+                    <p>Reorienting the bottle requires contact-aware direction control after the gripper establishes contact with the object.</p>
+                  </div>
+                  <div class="supplement-result-card">
+                    <span>Success Rate</span>
+                    <strong>Bottle Reorientation</strong>
+                    <div class="rate-list">
+                      <div class="rate-head"><span>Method</span><span>Success Rate</span></div>
+                      <div style="--rate: 80;"><span>&pi;<sub>0.5</sub></span><b>80.0%</b><i></i></div>
+                      <div class="highlight" style="--rate: 100;"><span>Wrench-aware reference</span><b>100.0%</b><i></i></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="supplement-video-grid two-up">
+                  <article class="supplement-video-card">
+                    <h4>&pi;<sub>0.5</sub></h4>
+                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/bottle-pi05.mp4" type="video/mp4" /></video>
+                    <p>Base policy succeeds on many trials but remains sensitive to final contact direction.</p>
+                  </article>
+                  <article class="supplement-video-card">
+                    <h4>Wrench-aware reference</h4>
+                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/bottle-wrench.mp4" type="video/mp4" /></video>
+                    <p>Wrench-aware action references improve reorientation consistency.</p>
+                  </article>
+                </div>
+              </div>
+
+              <div class="supplement-panel" data-tab-panel="tactile-cup" hidden>
+                <div class="supplement-brief">
+                  <div>
+                    <h3>Cup Grasping</h3>
+                    <p>Nested cups introduce friction between stacked objects; the robot must extract only the top cup without slipping or lifting multiple cups together.</p>
+                  </div>
+                  <div class="supplement-result-card">
+                    <span>Success Rate</span>
+                    <strong>Cup Grasping</strong>
+                    <div class="rate-list">
+                      <div class="rate-head"><span>Method</span><span>Success Rate</span></div>
+                      <div style="--rate: 80;"><span>&pi;<sub>0.5</sub></span><b>80.0%</b><i></i></div>
+                      <div class="highlight" style="--rate: 100;"><span>Wrench-aware reference</span><b>100.0%</b><i></i></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="supplement-video-grid two-up">
+                  <article class="supplement-video-card">
+                    <h4>&pi;<sub>0.5</sub></h4>
+                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/cup-pi05.mp4" type="video/mp4" /></video>
+                    <p>Base policy is sensitive to grasp force and friction between nested cups.</p>
+                  </article>
+                  <article class="supplement-video-card">
+                    <h4>Wrench-aware reference</h4>
+                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/cup-wrench.mp4" type="video/mp4" /></video>
+                    <p>Wrench-aware references help regulate contact while extracting the top cup.</p>
+                  </article>
+                </div>
+              </div>
+
+              <div class="supplement-panel" data-tab-panel="tactile-pingpong" hidden>
+                <div class="supplement-brief">
+                  <div>
+                    <h3>Ping-pong Ball</h3>
+                    <p>Ping-pong ball grasping tests force-sensitive handling of a spherical object that can deform under excessive grip force.</p>
+                  </div>
+                  <div class="supplement-result-card">
+                    <span>Success Rate</span>
+                    <strong>Ping-pong Ball</strong>
+                    <div class="rate-list">
+                      <div class="rate-head"><span>Method</span><span>Success Rate</span></div>
+                      <div style="--rate: 90;"><span>&pi;<sub>0.5</sub></span><b>90.0%</b><i></i></div>
+                      <div class="highlight" style="--rate: 90;"><span>Wrench-aware reference</span><b>90.0%</b><i></i></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="supplement-video-grid two-up">
+                  <article class="supplement-video-card">
+                    <h4>&pi;<sub>0.5</sub></h4>
+                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/pingpong-pi05.mp4" type="video/mp4" /></video>
+                    <p>Base policy already reaches high success but must avoid over-compressing the ball.</p>
+                  </article>
+                  <article class="supplement-video-card">
+                    <h4>Wrench-aware reference</h4>
+                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/pingpong-wrench.mp4" type="video/mp4" /></video>
+                    <p>Wrench-aware references preserve high success on this force-sensitive grasp.</p>
+                  </article>
+                </div>
+              </div>
+
+              <div class="supplement-panel" data-tab-panel="tactile-jelly" hidden>
+                <div class="supplement-brief">
+                  <div>
+                    <h3>Jelly Grasping</h3>
+                    <p>Open jelly cups require gentle contact: excessive force can squeeze the jelly out, while insufficient force can cause slip.</p>
+                  </div>
+                  <div class="supplement-result-card">
+                    <span>Success Rate</span>
+                    <strong>Jelly Grasping</strong>
+                    <div class="rate-list">
+                      <div class="rate-head"><span>Method</span><span>Success Rate</span></div>
+                      <div style="--rate: 70;"><span>&pi;<sub>0.5</sub></span><b>70.0%</b><i></i></div>
+                      <div class="highlight" style="--rate: 100;"><span>Wrench-aware reference</span><b>100.0%</b><i></i></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="supplement-video-grid two-up">
+                  <article class="supplement-video-card">
+                    <h4>&pi;<sub>0.5</sub></h4>
+                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/jelly-pi05.mp4" type="video/mp4" /></video>
+                    <p>Base policy is sensitive to slip and excessive squeezing during grasping.</p>
+                  </article>
+                  <article class="supplement-video-card">
+                    <h4>Wrench-aware reference</h4>
+                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/jelly-wrench.mp4" type="video/mp4" /></video>
+                    <p>Wrench-aware references improve gentle handling of the open jelly cup.</p>
+                  </article>
+                </div>
+              </div>
+
+              <div class="supplement-panel" data-tab-panel="tactile-whiteboard" hidden>
+                <div class="supplement-brief">
+                  <div>
+                    <h3>Whiteboard Erasing</h3>
+                    <p>Whiteboard erasing evaluates sustained contact while the end effector moves along the surface.</p>
+                  </div>
+                  <div class="supplement-result-card">
+                    <span>Success Rate</span>
+                    <strong>Whiteboard Erasing</strong>
+                    <div class="rate-list">
+                      <div class="rate-head"><span>Method</span><span>Success Rate</span></div>
+                      <div style="--rate: 100;"><span>&pi;<sub>0.5</sub></span><b>100.0%</b><i></i></div>
+                      <div class="highlight" style="--rate: 100;"><span>Wrench-aware reference</span><b>100.0%</b><i></i></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="supplement-video-grid two-up">
+                  <article class="supplement-video-card">
+                    <h4>&pi;<sub>0.5</sub></h4>
+                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/whiteboard-pi05.mp4" type="video/mp4" /></video>
+                    <p>Base policy maintains contact in these trials.</p>
+                  </article>
+                  <article class="supplement-video-card">
+                    <h4>Wrench-aware reference</h4>
+                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/whiteboard-wrench.mp4" type="video/mp4" /></video>
+                    <p>Wrench-aware references preserve reliable wiping contact.</p>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="supplementary-rl" class="subsection">
+            <div class="section-heading">
+              <h2>Online Refinement</h2>
+              <p>Block Placement and Tube Placement require fine contact adjustment after initial contact. We use them to evaluate the lightweight online RL refiner, comparing &pi;<sub>0.5</sub>, the wrench-aware reference model, and the online-refined policy.</p>
+            </div>
+
+            <div class="supplement-tabs rl-tabs" data-supplement-tabs>
+              <div class="supplement-tab-list" role="tablist" aria-label="Online RL refinement task selector">
+                <button class="supplement-tab active" type="button" data-tab-target="rl-block" aria-selected="true">Block Placement</button>
+                <button class="supplement-tab" type="button" data-tab-target="rl-tube" aria-selected="false">Tube Placement</button>
+              </div>
+
+              <div class="supplement-panel active" data-tab-panel="rl-block">
+                <div class="supplement-brief">
+                  <div>
+                    <h3>Block Placement</h3>
+                    <p>Block placement requires fine contact-guided alignment before the object can be released stably.</p>
+                  </div>
+                  <div class="supplement-result-card rl-result-card">
+                    <span>Reported Metrics</span>
+                    <strong>Block Placement</strong>
+                    <div class="metric-head"><span>Method</span><span>Success Rate</span><span>Avg. Time</span></div>
+                    <div class="metric-pair">
+                      <div>
+                        <span>&pi;<sub>0.5</sub></span>
+                        <b>60.00%</b>
+                        <em>28.81 s</em>
+                      </div>
+                      <div class="mid">
+                        <span>Wrench-aware reference</span>
+                        <b>80.00%</b>
+                        <em>22.93 s</em>
+                      </div>
+                      <div class="highlight">
+                        <span>Wrench + online RL</span>
+                        <b>100.00%</b>
+                        <em>17.95 s</em>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <p class="supplement-note">The table reports task success rate and average completion time for &pi;<sub>0.5</sub>, the wrench-aware reference model, and Wrench + online RL.</p>
+                <div class="supplement-video-grid three-up">
+                  <article class="supplement-video-card">
+                    <h4>&pi;<sub>0.5</sub></h4>
+                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/block-pi05.mp4" type="video/mp4" /></video>
+                    <p>Base policy can leave final alignment errors.</p>
+                  </article>
+                  <article class="supplement-video-card">
+                    <h4>Wrench-aware reference</h4>
+                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/block-wrench.mp4" type="video/mp4" /></video>
+                    <p>Wrench-aware reference uses tactile-derived wrench cues for contact-aware placement.</p>
+                  </article>
+                  <article class="supplement-video-card">
+                    <h4>Wrench + online RL</h4>
+                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/block-rl.mp4" type="video/mp4" /></video>
+                    <p>Online refinement corrects contact alignment before release.</p>
+                  </article>
+                </div>
+              </div>
+
+              <div class="supplement-panel" data-tab-panel="rl-tube" hidden>
+                <div class="supplement-brief">
+                  <div>
+                    <h3>Tube Placement</h3>
+                    <p>Tube placement requires aligning orientation and position with a narrow holder after initial contact.</p>
+                  </div>
+                  <div class="supplement-result-card rl-result-card">
+                    <span>Reported Metrics</span>
+                    <strong>Tube Placement</strong>
+                    <div class="metric-head"><span>Method</span><span>Success Rate</span><span>Avg. Time</span></div>
+                    <div class="metric-pair">
+                      <div>
+                        <span>&pi;<sub>0.5</sub></span>
+                        <b>70.00%</b>
+                        <em>19.93 s</em>
+                      </div>
+                      <div class="mid">
+                        <span>Wrench-aware reference</span>
+                        <b>80.00%</b>
+                        <em>16.53 s</em>
+                      </div>
+                      <div class="highlight">
+                        <span>Wrench + online RL</span>
+                        <b>100.00%</b>
+                        <em>11.97 s</em>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <p class="supplement-note">The table reports task success rate and average completion time for &pi;<sub>0.5</sub>, the wrench-aware reference model, and Wrench + online RL.</p>
+                <div class="supplement-video-grid three-up">
+                  <article class="supplement-video-card">
+                    <h4>&pi;<sub>0.5</sub></h4>
+                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/tube-pi05.mp4" type="video/mp4" /></video>
+                    <p>Base policy can leave angular or translational placement errors.</p>
+                  </article>
+                  <article class="supplement-video-card">
+                    <h4>Wrench-aware reference</h4>
+                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/tube-wrench.mp4" type="video/mp4" /></video>
+                    <p>Wrench-aware reference uses tactile-derived wrench cues for contact-aware placement.</p>
+                  </article>
+                  <article class="supplement-video-card">
+                    <h4>Wrench + online RL</h4>
+                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/tube-rl.mp4" type="video/mp4" /></video>
+                    <p>Online refinement makes the final placement more reliable and faster.</p>
+                  </article>
+                </div>
+              </div>
+            </div>
           </section>
         </section>
 

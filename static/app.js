@@ -140,6 +140,34 @@ videoPlayers.forEach((player) => {
   updatePlaybackButton();
 });
 
+const supplementTabs = Array.from(document.querySelectorAll('[data-supplement-tabs]'));
+
+supplementTabs.forEach((tabGroup) => {
+  const tabs = Array.from(tabGroup.querySelectorAll('[data-tab-target]'));
+  const panels = Array.from(tabGroup.querySelectorAll('[data-tab-panel]'));
+  if (!tabs.length || !panels.length) return;
+
+  function activatePanel(target) {
+    tabGroup.querySelectorAll('video').forEach((video) => video.pause());
+
+    tabs.forEach((tab) => {
+      const isActive = tab.dataset.tabTarget === target;
+      tab.classList.toggle('active', isActive);
+      tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+
+    panels.forEach((panel) => {
+      const isActive = panel.dataset.tabPanel === target;
+      panel.classList.toggle('active', isActive);
+      panel.hidden = !isActive;
+    });
+  }
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => activatePanel(tab.dataset.tabTarget));
+  });
+});
+
 function jumpToHashTarget() {
   if (!window.location.hash) return;
   const target = document.querySelector(window.location.hash);
