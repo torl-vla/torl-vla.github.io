@@ -562,7 +562,7 @@
                 <div class="supplement-brief">
                   <div>
                     <h3>Cup Grasping</h3>
-                    <p>Nested cups introduce friction between stacked objects; the robot must extract only the top cup without slipping or lifting multiple cups together.</p>
+                    <p>Nested-cup friction requires extracting only the top cup without slipping or lifting multiple cups together.</p>
                   </div>
                   <div class="supplement-result-card">
                     <span>Success Rate</span>
@@ -578,12 +578,12 @@
                   <article class="supplement-video-card">
                     <h4>&pi;<sub>0.5</sub></h4>
                     <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/cup-pi05.mp4" type="video/mp4" /></video>
-                    <p>Base policy is sensitive to grasp force and friction between nested cups.</p>
+                    <p>The base policy applies excessive grasping force, preventing the nested cups from being separated.</p>
                   </article>
                   <article class="supplement-video-card">
                     <h4>Wrench-aware reference</h4>
                     <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/cup-wrench.mp4" type="video/mp4" /></video>
-                    <p>Wrench-aware references help regulate contact while extracting the top cup.</p>
+                    <p>Wrench-aware reference signals help regulate the contact force appropriately, allowing the nested cups to separate.</p>
                   </article>
                 </div>
               </div>
@@ -659,7 +659,7 @@
                     <strong>Whiteboard Erasing</strong>
                     <div class="rate-list">
                       <div class="rate-head"><span>Method</span><span>Success Rate</span></div>
-                      <div style="--rate: 100;"><span>&pi;<sub>0.5</sub></span><b>100.0%</b><i></i></div>
+                      <div style="--rate: 90;"><span>&pi;<sub>0.5</sub></span><b>90.0%</b><i></i></div>
                       <div class="highlight" style="--rate: 100;"><span>Wrench-aware reference</span><b>100.0%</b><i></i></div>
                     </div>
                   </div>
@@ -668,12 +668,12 @@
                   <article class="supplement-video-card">
                     <h4>&pi;<sub>0.5</sub></h4>
                     <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/whiteboard-pi05.mp4" type="video/mp4" /></video>
-                    <p>Base policy maintains contact in these trials.</p>
+                    <p>The base policy occasionally applies too little normal force during wiping, resulting in incomplete cleaning in a single pass.</p>
                   </article>
                   <article class="supplement-video-card">
                     <h4>Wrench-aware reference</h4>
                     <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/whiteboard-wrench.mp4" type="video/mp4" /></video>
-                    <p>Wrench-aware references preserve reliable wiping contact.</p>
+                    <p>Wrench-aware reference signals apply the appropriate normal force, leading to cleaner wiping performance.</p>
                   </article>
                 </div>
               </div>
