@@ -99,6 +99,13 @@ a {
   line-height: 1.8;
 }
 
+.authors .author {
+  display: inline-block;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
 .authors sup,
 .affiliations sup {
   color: var(--ink);
