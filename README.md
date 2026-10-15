@@ -52,15 +52,16 @@ http://127.0.0.1:8001
 index.html
 serve.py
 static/styles.css
+static/refinements.css
 static/app.js
-static/video-poster.jpg
+static/paper-update/video-poster.jpg
 static/favicon.svg
 static/native/
 static/native/corlpipeline.pdf
 static/native/corlpipeline-tight.png
 assets/TORL-VLA.pdf
 assets/TORL-VLA-Appendix.pdf
-assets/videos/project-video-fullframe.mp4
+assets/videos/project-video-subtitled.mp4
 assets/videos/real-robot-experiments-hq.mp4
 assets/videos/real-robot-experiments-h264.mp4
 assets/videos/real-robot-experiments-preview.webm
@@ -69,14 +70,15 @@ assets/videos/real-robot-experiments-preview.webm
 主要文件说明：
 
 - `index.html`：网页主体内容，包括标题、作者、按钮、视频、方法、实验、补充分析和引用。
-- `static/styles.css`：网页样式、左侧目录、响应式布局和结果图表样式。
-- `static/app.js`：左侧目录的滚动章节高亮，以及项目视频的自定义可拖动进度条。
+- `static/styles.css`：基础网页样式和结果图表样式。
+- `static/refinements.css`：论文文案布局、三阶段卡片、参考与路由展示、响应式导航和图片查看器样式。
+- `static/app.js`：章节导航、任务视频切换、图片放大查看，以及项目视频的播放、进度和全屏控制。
 - `serve.py`：本地预览服务器，支持视频 Range 请求。
-- `static/video-poster.jpg`：从项目视频第一帧生成的网页视频封面。
+- `static/paper-update/video-poster.jpg`：指定字幕视频的标题开场封面。
 - `static/native/corlpipeline-tight.png`：从 `corlpipeline.pdf` 重新生成并裁掉白边的总流程图。
 - `assets/TORL-VLA.pdf`：论文 PDF。
 - `assets/TORL-VLA-Appendix.pdf`：补充材料 PDF。
-- `assets/videos/project-video-fullframe.mp4`：网页优先加载的视频，约 78 MB，720p H.264，保留完整画面和音频，支持更好的拖动体验。
+- `assets/videos/project-video-subtitled.mp4`：当前开场字幕视频，约 64 MB，1920×1130 H.264。
 - `assets/videos/real-robot-experiments-hq.mp4`：备用视频，约 77 MB，720p H.264。
 - `assets/videos/real-robot-experiments-h264.mp4`：较小的 H.264 备用版本。
 - `assets/videos/real-robot-experiments-preview.webm`：WebM 备用版本。
@@ -84,21 +86,17 @@ assets/videos/real-robot-experiments-preview.webm
 
 ## 视频说明
 
-网页中的视频来自：
+开场视频使用 `/data/paper_corl/icra_new/有字幕.mp4` 的浏览器兼容转码版本：
 
 ```text
-/data/paper_corl/Supplementary Material/Real-Robot Experiments.mp4
+assets/videos/project-video-subtitled.mp4
 ```
 
-原始视频约 136 MB，是 HEVC 编码。网页中优先使用重新转码后的：
+该版本为 1920×1130、H.264/AAC，保留完整画面与字幕，时长约 2 分 56 秒，约 64 MB。封面 `static/paper-update/video-poster.jpg` 使用标题开场画面，播放器从 0:00 开始。所有任务演示视频、任务难点说明和逐段观看解释继续保留。
 
-```text
-assets/videos/project-video-fullframe.mp4
-```
+页面支持播放、静音、拖动进度和全屏显示。浏览器限制原生全屏时会使用页面展开模式。本地请使用 `python3 serve.py 8000`，该服务支持视频 Range 请求。
 
-该版本使用 ffmpeg 保留完整画面并重新编码到 1280x720、30fps、H.264、faststart，设置约 0.5 秒关键帧间隔，文件大小约 78 MB。原始视频本身是 720p，因此网页视频不能真正提升到原生 1080p；现在的版本主要优化了浏览器兼容、可拖动性、首帧加载和视觉锐度。
-
-页面使用单一自定义视频控制栏，拖动进度条会直接跳转 `video.currentTime`。正式发布到 GitHub Pages 后，视频拖动通常会由静态托管服务正常支持。本地预览时请使用 `python3 serve.py 8000`，不要用 `python3 -m http.server` 来判断视频进度条是否可拖动。如果浏览器仍显示旧视频或旧封面，请强制刷新页面缓存。
+研究图片可点击放大；有 PDF 的图片在查看器内保留 PDF 入口。方法总图使用 2026-10-15 从 Overleaf 项目 `TORL-VLA: ICRA` 导出的 `icra_version_xsl/figures/corlpipeline.pdf`，保存为 `static/paper-update/method-framework.pdf`。经作者确认，仅将图内 Stage II 标题统一为 `Stage-Specific Online Reference Refinement`，沿用原图字体与字号，其余图中文字和内容保持原样。网页 PNG 按原 PDF 的 CropBox 渲染为高清图，页面同步记录图片比例并更新缓存标识。原有素材继续保留在 `static/native/`。
 
 ## 相关代码链接
 

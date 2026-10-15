@@ -1,30 +1,42 @@
-const sectionLinks = Array.from(document.querySelectorAll('.page-toc a[href^="#"]'));
-const sections = sectionLinks
-  .map((link) => document.querySelector(link.getAttribute('href')))
-  .filter(Boolean);
-
+const sectionLinks = Array.from(document.querySelectorAll('.page-toc a[href^="#"], .section-nav a[href^="#"]'));
+const sections = [...new Set(sectionLinks.map(link => document.getElementById(link.hash.slice(1))).filter(Boolean))]
+  .sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1);
+let activeSectionId = '';
 function setActiveSection(id) {
-  sectionLinks.forEach((link) => {
-    link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+  if (id === activeSectionId) return;
+  activeSectionId = id;
+  const outlineLink = document.querySelector(`.page-toc a[href="#${id}"]`);
+  const group = outlineLink?.closest('[data-toc-group]');
+  document.querySelectorAll('[data-toc-group]').forEach(item => item.classList.toggle('is-active', item === group));
+  const mainId = group?.dataset.tocGroup || id;
+  sectionLinks.forEach(link => {
+    const isActive = link.hash === `#${link.closest('.section-nav') ? mainId : id}`;
+    link.classList.toggle('active', isActive);
+    if (isActive) link.setAttribute('aria-current', 'location');
+    else link.removeAttribute('aria-current');
   });
+  const nav = document.querySelector('.section-nav');
+  const current = nav?.querySelector('.active');
+  if (current && nav.clientWidth && (current.offsetLeft < nav.scrollLeft || current.offsetLeft + current.offsetWidth > nav.scrollLeft + nav.clientWidth)) {
+    nav.scrollTo({ left: Math.max(0, current.offsetLeft - 12), behavior: 'smooth' });
+  }
 }
-
-if ('IntersectionObserver' in window && sections.length) {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      const visible = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (visible) setActiveSection(visible.target.id);
-    },
-    {
-      rootMargin: '-22% 0px -58% 0px',
-      threshold: [0.08, 0.2, 0.45, 0.7],
-    },
-  );
-
-  sections.forEach((section) => observer.observe(section));
+function updateActiveSection() {
+  const marker = Math.min(280, window.innerHeight * 0.3);
+  let current = sections[0];
+  for (const section of sections) {
+    if (section.getBoundingClientRect().top <= marker) current = section;
+  }
+  if (current) setActiveSection(current.id);
 }
+let scrollScheduled = false;
+window.addEventListener('scroll', () => {
+  if (scrollScheduled) return;
+  scrollScheduled = true;
+  requestAnimationFrame(() => { updateActiveSection(); scrollScheduled = false; });
+}, { passive: true });
+window.addEventListener('resize', updateActiveSection);
+updateActiveSection();
 
 const videoPlayers = Array.from(document.querySelectorAll('[data-video-player]'));
 
@@ -41,6 +53,7 @@ videoPlayers.forEach((player) => {
   const seek = player.querySelector('.video-seek');
   const playToggle = player.querySelector('[data-play-toggle]');
   const fullscreenToggle = player.querySelector('[data-fullscreen-toggle]');
+  const muteToggle = player.querySelector('[data-mute-toggle]');
   const currentTime = player.querySelector('[data-current-time]');
   const durationTime = player.querySelector('[data-duration]');
   if (!video || !seek) return;
@@ -98,12 +111,44 @@ videoPlayers.forEach((player) => {
     video.pause();
   }
 
-  function toggleFullscreen() {
-    if (!document.fullscreenElement) {
-      player.requestFullscreen?.();
+  function updateMuteButton() {
+    if (!muteToggle) return;
+    muteToggle.textContent = video.muted ? 'Unmute' : 'Mute';
+    muteToggle.setAttribute('aria-label', video.muted ? 'Unmute project video' : 'Mute project video');
+    muteToggle.setAttribute('aria-pressed', String(video.muted));
+  }
+
+  function updateFullscreenButton() {
+    if (!fullscreenToggle) return;
+    const expanded = document.fullscreenElement === player || player.classList.contains('is-expanded');
+    fullscreenToggle.textContent = expanded ? 'Exit' : 'Full';
+    fullscreenToggle.setAttribute('aria-label', expanded ? 'Exit fullscreen project video' : 'Fullscreen project video');
+  }
+
+  function setExpanded(expanded) {
+    player.classList.toggle('is-expanded', expanded);
+    document.body.classList.toggle('video-expanded', Boolean(document.querySelector('.video-frame.is-expanded')));
+    updateFullscreenButton();
+  }
+
+  async function toggleFullscreen() {
+    if (player.classList.contains('is-expanded')) {
+      setExpanded(false);
       return;
     }
-    document.exitFullscreen?.();
+    if (document.fullscreenElement) {
+      await document.exitFullscreen();
+      return;
+    }
+    if (player.requestFullscreen) {
+      try {
+        await player.requestFullscreen();
+        return;
+      } catch {
+        // Embedded browsers may deny native fullscreen; keep an expanded view available.
+      }
+    }
+    setExpanded(true);
   }
 
   video.addEventListener('loadedmetadata', updateSeekFromVideo);
@@ -114,10 +159,18 @@ videoPlayers.forEach((player) => {
   video.addEventListener('play', updatePlaybackButton);
   video.addEventListener('pause', updatePlaybackButton);
   video.addEventListener('ended', updatePlaybackButton);
+  video.addEventListener('volumechange', updateMuteButton);
   video.addEventListener('click', togglePlayback);
 
   playToggle?.addEventListener('click', togglePlayback);
   fullscreenToggle?.addEventListener('click', toggleFullscreen);
+  document.addEventListener('fullscreenchange', updateFullscreenButton);
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && player.classList.contains('is-expanded')) setExpanded(false);
+  });
+  muteToggle?.addEventListener('click', () => {
+    video.muted = !video.muted;
+  });
 
   seek.addEventListener('pointerdown', () => {
     isScrubbing = true;
@@ -138,48 +191,98 @@ videoPlayers.forEach((player) => {
 
   updateSeekFromVideo();
   updatePlaybackButton();
+  updateMuteButton();
+  updateFullscreenButton();
 });
 
-const supplementTabs = Array.from(document.querySelectorAll('[data-supplement-tabs]'));
 
-supplementTabs.forEach((tabGroup) => {
-  const tabs = Array.from(tabGroup.querySelectorAll('[data-tab-target]'));
-  const panels = Array.from(tabGroup.querySelectorAll('[data-tab-panel]'));
+document.querySelectorAll('[data-supplement-tabs]').forEach(group => {
+  const tabs = [...group.querySelectorAll('[data-tab-target]')];
+  const panels = [...group.querySelectorAll('[data-tab-panel]')];
   if (!tabs.length || !panels.length) return;
-
   function activatePanel(target) {
-    tabGroup.querySelectorAll('video').forEach((video) => video.pause());
-
-    tabs.forEach((tab) => {
-      const isActive = tab.dataset.tabTarget === target;
-      tab.classList.toggle('active', isActive);
-      tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    group.querySelectorAll('video').forEach(video => video.pause());
+    tabs.forEach(tab => {
+      const active = tab.dataset.tabTarget === target;
+      tab.classList.toggle('active', active);
+      tab.setAttribute('aria-selected', String(active));
+      tab.tabIndex = active ? 0 : -1;
     });
-
-    panels.forEach((panel) => {
-      const isActive = panel.dataset.tabPanel === target;
-      panel.classList.toggle('active', isActive);
-      panel.hidden = !isActive;
+    panels.forEach(panel => {
+      const active = panel.dataset.tabPanel === target;
+      panel.classList.toggle('active', active);
+      panel.hidden = !active;
+      panel.querySelectorAll('video').forEach(video => {
+        video.preload = active ? 'metadata' : 'none';
+        if (active && video.readyState === 0) video.load();
+      });
     });
   }
-
-  tabs.forEach((tab) => {
+  tabs.forEach((tab, index) => {
     tab.addEventListener('click', () => activatePanel(tab.dataset.tabTarget));
+    tab.addEventListener('keydown', event => {
+      let next;
+      if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+      if (event.key === 'ArrowLeft') next = (index - 1 + tabs.length) % tabs.length;
+      if (event.key === 'Home') next = 0;
+      if (event.key === 'End') next = tabs.length - 1;
+      if (next === undefined) return;
+      event.preventDefault();
+      tabs[next].focus();
+      activatePanel(tabs[next].dataset.tabTarget);
+    });
   });
+  activatePanel(tabs.find(tab => tab.classList.contains('active'))?.dataset.tabTarget || tabs[0].dataset.tabTarget);
 });
-
-function jumpToHashTarget() {
-  if (!window.location.hash) return;
-  const target = document.querySelector(window.location.hash);
-  if (!target) return;
-  const top = target.getBoundingClientRect().top + window.scrollY - 18;
-  window.scrollTo(0, top);
-  document.documentElement.scrollTop = top;
-  document.body.scrollTop = top;
-  setActiveSection(target.id);
-}
 
 window.addEventListener('load', () => {
-  window.setTimeout(jumpToHashTarget, 80);
-  window.setTimeout(jumpToHashTarget, 700);
+  const target = document.getElementById(window.location.hash.slice(1));
+  if (target) {
+    const offset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--anchor-offset')) || 24;
+    window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - offset, behavior: 'instant' });
+  }
+  updateActiveSection();
 });
+
+const figureViewer = document.getElementById('figure-viewer');
+if (figureViewer) {
+  const viewerImage = figureViewer.querySelector('[data-viewer-image]');
+  const viewerTitle = document.getElementById('figure-viewer-title');
+  const viewerCaption = figureViewer.querySelector('[data-viewer-caption]');
+  const pdfLink = figureViewer.querySelector('[data-viewer-pdf]');
+  const zoomButton = figureViewer.querySelector('[data-viewer-zoom]');
+  function setFigureZoom(zoomed) {
+    figureViewer.classList.toggle('is-zoomed', zoomed);
+    zoomButton.textContent = zoomed ? 'Fit to view' : 'Zoom in';
+    zoomButton.setAttribute('aria-pressed', String(zoomed));
+  }
+  document.querySelectorAll('[data-figure-viewer]').forEach(trigger => {
+    trigger.addEventListener('click', event => {
+      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      if (typeof figureViewer.showModal !== 'function') return;
+      event.preventDefault();
+      const image = trigger.querySelector('img');
+      const imageWidth = image.naturalWidth || Number(image.getAttribute('width')) || 1600;
+      const imageHeight = image.naturalHeight || Number(image.getAttribute('height')) || 900;
+      figureViewer.style.setProperty('--figure-ratio', String(imageWidth / imageHeight));
+      viewerImage.src = image.currentSrc || image.src;
+      viewerImage.alt = image.alt;
+      viewerTitle.textContent = image.alt || 'Figure detail';
+      viewerCaption.textContent = trigger.closest('figure')?.querySelector('figcaption')?.textContent || '';
+      pdfLink.hidden = trigger.tagName !== 'A';
+      if (!pdfLink.hidden) pdfLink.href = trigger.href;
+      else pdfLink.removeAttribute('href');
+      setFigureZoom(false);
+      figureViewer.showModal();
+      document.body.classList.add('viewer-open');
+    });
+  });
+  zoomButton.addEventListener('click', () => setFigureZoom(!figureViewer.classList.contains('is-zoomed')));
+  figureViewer.querySelector('[data-viewer-close]').addEventListener('click', () => figureViewer.close());
+  figureViewer.addEventListener('click', event => { if (event.target === figureViewer) figureViewer.close(); });
+  figureViewer.addEventListener('close', () => {
+    document.body.classList.remove('viewer-open');
+    setFigureZoom(false);
+    viewerImage.removeAttribute('src');
+  });
+}

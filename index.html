@@ -3,19 +3,20 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>TORL-VLA | Tactile Guided Online Reinforcement Learning</title>
-  <meta name="description" content="Project page for TORL-VLA: tactile-guided online reinforcement learning for contact-rich manipulation." />
+  <title>TORL-VLA | Tactile-Guided Online Reinforcement Learning</title>
+  <meta name="description" content="A tactile-guided online reinforcement learning framework that couples tactile feedback with policy refinement for contact-rich manipulation." />
   <meta property="og:title" content="TORL-VLA" />
-  <meta property="og:description" content="Action-and-wrench references with online contact adaptation for contact-rich robotic manipulation." />
-  <meta property="og:image" content="static/video-poster.jpg" />
+  <meta property="og:description" content="A tactile-guided online reinforcement learning framework that couples tactile feedback with policy refinement for contact-rich manipulation." />
+  <meta property="og:image" content="static/paper-update/video-poster.jpg" />
   <link rel="icon" type="image/svg+xml" href="static/favicon.svg" />
   <link rel="stylesheet" href="static/styles.css" />
+  <link rel="stylesheet" href="static/refinements.css" />
 </head>
 <body>
   <main id="top">
     <section class="hero shell">
-      <p class="eyebrow">Action-and-wrench references for online contact adaptation</p>
-      <h1><span>TORL-VLA</span>: Tactile Guided Online Reinforcement Learning for Contact-Rich Manipulation</h1>
+      <p class="eyebrow">A tactile-guided online reinforcement learning framework</p>
+      <h1><span>TORL-VLA</span>: Tactile-Guided Online Reinforcement Learning for Contact-Rich Manipulation</h1>
       <p class="authors">
         <span class="author">Huaihang Zheng<sup>1</sup>,</span>
         <span class="author">Yi Yang<sup>1,4</sup>,</span>
@@ -47,41 +48,27 @@
     </section>
 
     <div class="content-layout shell">
-      <aside class="page-toc" aria-label="On this page">
-        <p>On This Page</p>
-        <a href="#video">Project Video</a>
-        <a href="#overview">Overview</a>
-        <a href="#method">Method</a>
-        <a class="toc-child" href="#reference-model">Reference Model</a>
-        <a class="toc-child" href="#online-refinement">Online Refinement</a>
-        <a href="#experiments">Experiments</a>
-        <a class="toc-child" href="#experimental-setup">Setup</a>
-        <a class="toc-child" href="#performance">Main Results</a>
-        <a class="toc-child" href="#ablations">Ablations</a>
-        <a class="toc-grandchild" href="#online-curves">Online Curves</a>
-        <a href="#supplementary-experiments">Supplementary</a>
-        <a class="toc-child" href="#supplementary-reference">Tactile Reference</a>
-        <a class="toc-child" href="#supplementary-rl">Online RL Refinement</a>
-        <a href="#analysis">Analysis &amp; Details</a>
-        <a href="#citation">Resources</a>
-      </aside>
+      <aside class="page-toc" aria-label="On this page"><p>On This Page</p>
+        <a href="#video">Project Video</a><a href="#overview">Overview</a>
+        <div class="toc-group" data-toc-group="method"><a href="#method">Method</a><div class="toc-subnav"><a class="toc-child" href="#reference-model">Reference Model</a><a class="toc-child" href="#online-refinement">Online Refinement</a><a class="toc-child" href="#learning-mechanism">Critics &amp; Hinge</a></div></div>
+        <div class="toc-group" data-toc-group="experiments"><a href="#experiments">Experiments</a><div class="toc-subnav"><a class="toc-child" href="#experimental-setup">Setup</a><a class="toc-child" href="#performance">Main Results</a><a class="toc-child" href="#standalone-results">Standalone Tasks</a><a class="toc-child" href="#ablations">Ablations</a><a class="toc-child" href="#online-curves">Online Learning</a><a class="toc-child" href="#intervention-analysis">Intervention Analysis</a><a class="toc-child" href="#future-wrench">Wrench Prediction</a><a class="toc-child" href="#contact-generalization">Friction &amp; Compliance</a><a class="toc-child" href="#tactile-correction">Tactile Correction</a></div></div>
+        <div class="toc-group" data-toc-group="supplementary-experiments"><a href="#supplementary-experiments">Demonstrations</a><div class="toc-subnav"><a class="toc-child" href="#supplementary-reference">Reference Model</a><a class="toc-child" href="#supplementary-rl">Standalone Tasks</a></div></div>
+        <a href="#analysis">Analysis &amp; Implementation</a><a href="#citation">Resources</a></aside>
 
-      <div class="content-main">
+      <div class="content-main"><nav class="section-nav" aria-label="Section navigation"><a href="#video">Video</a><a href="#overview">Overview</a><a href="#method">Method</a><a href="#experiments">Experiments</a><a href="#supplementary-experiments">Demos</a><a href="#analysis">Analysis</a><a href="#citation">Resources</a></nav>
         <section id="video" class="section video-section">
           <div class="section-heading centered">
             <h2>Project Video</h2>
           </div>
           <div class="video-frame" data-video-player>
-            <video playsinline preload="metadata" poster="static/video-poster.jpg?v=20260613b">
-              <source src="assets/videos/project-video-fullframe.mp4?v=20260613b" type="video/mp4" />
-              <source src="assets/videos/real-robot-experiments-hq.mp4?v=20260613b" type="video/mp4" />
-              <source src="assets/videos/real-robot-experiments-h264.mp4" type="video/mp4" />
-              <source src="assets/videos/real-robot-experiments-preview.webm" type="video/webm" />
+            <video playsinline preload="metadata" aria-label="TORL-VLA project video with English subtitles" poster="static/paper-update/video-poster.jpg">
+              <source src="assets/videos/project-video-subtitled.mp4" type="video/mp4" />
             </video>
             <div class="video-controls">
               <button class="video-button" type="button" data-play-toggle aria-label="Play project video">Play</button>
               <input class="video-seek" type="range" min="0" max="1000" value="0" step="1" aria-label="Project video progress" />
               <span class="video-time"><span data-current-time>0:00</span><span>/</span><span data-duration>0:00</span></span>
+              <button class="video-button" type="button" data-mute-toggle aria-label="Mute project video" aria-pressed="false">Mute</button>
               <button class="video-button" type="button" data-fullscreen-toggle aria-label="Fullscreen project video">Full</button>
             </div>
           </div>
@@ -90,28 +77,25 @@
         <section id="overview" class="section two-col overview-section">
           <div>
             <p class="eyebrow">Overview</p>
-            <h2>Turning contact-aware references into contact-adaptive execution</h2>
-            <p>
-              Contact-rich manipulation can fail when visually similar states hide different physical conditions: partial insertion, incomplete latch engagement, or excessive grasp force. TORL-VLA uses tactile-derived wrench feedback as physical cues for these contact bottlenecks during execution.
-            </p>
-            <p>
-              A wrench-aware VLA predicts both action references and future wrench sequences. Lightweight stage-specific actor-critic refiners adapt those references online, while an intervention-censored critic prevents post-intervention success from being over-credited to preceding policy actions.
-            </p>
+            <h2>Tactile-Guided Online Reinforcement Learning</h2>
+            <p>Contact-rich manipulation depends on physical states often difficult to infer from images, such as slipping, jamming, and excessive contact force. Although tactile-aware VLAs improve contact awareness, their behavior remains limited by contact conditions covered in fixed offline data.</p>
+            <p>TORL-VLA addresses this limitation through tactile-guided online reinforcement learning. A tactile-derived wrench-aware VLA predicts reference actions and future wrench sequences, while a lightweight stage-specific actor-critic learns to refine them through real-world interaction. Training combines policy-generated and human-intervention data; an intervention-censored critic prevents post-intervention success from being wrongly credited to preceding policy actions.</p>
+            <p class="overview-evaluation">Autonomous evaluation uses fixed model parameters with closed-loop tactile feedback.</p>
           </div>
           <aside class="summary-panel idea-panel">
             <h3>Core Contributions</h3>
             <div class="idea-list">
               <article>
-                <strong>Wrench-aware VLA reference</strong>
-                <span>Fuses tactile-derived wrench history through MoE routing and a gated bypass to produce action references with future wrench cues.</span>
+                <strong>Tactile-Guided Online RL</strong>
+                <span>TORL-VLA uses a tactile-derived wrench-aware VLA to predict reference actions and future wrench sequences. A lightweight, stage-specific actor-critic refines these actions through real-world online RL at contact-critical stages.</span>
               </article>
               <article>
-                <strong>Stage-specific online refinement</strong>
-                <span>Refines VLA references around contact-critical windows using measured and predicted wrench cues.</span>
+                <strong>Intervention-Censored Critic</strong>
+                <span>An intervention-censored critic prevents success after human takeover from being wrongly credited to preceding policy actions. A separate task critic retains task-return learning from both policy and human-intervention data.</span>
               </article>
               <article>
-                <strong>Intervention-censored critic</strong>
-                <span>Prevents success after human correction from being over-credited to the preceding policy chunk.</span>
+                <strong>Real-Robot Experiments</strong>
+                <span>Real-robot experiments measure subtask and full-task success, completion time, and robustness to changes in latch friction and cup compliance. A latch-flipping case study demonstrates tactile-guided action correction.</span>
               </article>
             </div>
           </aside>
@@ -121,157 +105,137 @@
           <div class="section-heading">
             <p class="eyebrow">Method</p>
             <h2>Method Overview</h2>
-            <p>TORL-VLA uses a frozen wrench-aware VLA as an action-and-wrench reference model, then updates only lightweight stage-specific actor-critic refiners during online adaptation.</p>
+            <p>TORL-VLA trains a tactile-derived wrench-aware VLA offline to predict reference actions and future wrench sequences. With this reference frozen, stage-specific actor-critic modules learn action refinement through real-world online RL. Final autonomous evaluation uses fixed parameters and closed-loop tactile feedback.</p>
           </div>
-
-          <div class="method-grid">
-            <article>
-              <span>Reference</span>
-              <h3>Wrench-aware VLA reference model</h3>
-              <p>Three camera views, language, and robot state are encoded by the VLA, while a recent wrench-history token is fused after visual-language encoding to predict reference actions and future wrench sequences.</p>
-            </article>
-            <article>
-              <span>Refinement</span>
-              <h3>Stage online reference adaptation</h3>
-              <p>The online refiner receives compact VLA tokens, A<sub>ref</sub>, W<sub>ref</sub>, current measured wrench, and recent wrench history for stage-specific actor-critic refinement.</p>
-            </article>
-            <article>
-              <span>Evaluation</span>
-              <h3>Real-robot deployment and evaluation</h3>
-              <p>Evaluates the refined policy on long-horizon latch-box manipulation with subtask success, full-task success, and 60-minute throughput.</p>
-            </article>
-          </div>
-
           <figure class="figure-wide pipeline-figure">
-            <a href="static/native/corlpipeline.pdf" target="_blank" rel="noreferrer">
-              <img src="static/native/corlpipeline-tight.png" alt="Overview of the TORL-VLA framework." loading="lazy" />
+            <a href="static/paper-update/method-framework.pdf?v=f450efc1da17" target="_blank" rel="noreferrer" data-figure-viewer="" class="figure-zoom" aria-label="Enlarge figure: TORL-VLA framework: offline reference training, stage-specific online RL refinement, and autonomous evaluation.">
+              <img src="static/paper-update/method-framework.png?v=f450efc1da17" alt="TORL-VLA framework: offline reference training, stage-specific online RL refinement, and autonomous evaluation." width="3200" height="1629" loading="lazy" />
             </a>
-            <figcaption>TORL-VLA pipeline: a wrench-aware VLA predicts action-and-wrench references, stage-specific online actor-critic heads refine contact-window actions, and the refined policy is evaluated on long-horizon latch-box manipulation.</figcaption>
+            <figcaption>A tactile-derived wrench-aware VLA provides action-and-wrench references for stage-specific online RL refinement.</figcaption>
           </figure>
+          <div class="stage-cards" aria-label="Training and evaluation stages">
+            <article><span>Stage I</span><h3>Tactile-Aware Reference Training</h3><p>Fuse tactile-derived wrench information with vision, language, and robot state. Train the reference model offline to jointly predict action chunks and future wrench sequences.</p></article>
+            <article><span>Stage II</span><h3>Stage-Specific Online RL Refinement</h3><p>Keep the VLA frozen and train lightweight stage-specific actor-critic modules through real-world interaction. Measured wrench feedback and predicted wrench cues guide action refinement at contact-critical stages.</p></article>
+            <article><span>Stage III</span><h3>Autonomous Evaluation</h3><p>Fix all model parameters and evaluate autonomous execution on long-horizon and standalone tasks. Tactile feedback remains available for closed-loop action refinement.</p></article>
+          </div>
 
           <section id="reference-model" class="subsection">
             <div class="section-heading">
-              <h2>Tactile-Aware VLA as an Action-and-Wrench Reference Model</h2>
-              <p>The reference model encodes recent tactile-derived wrench history as a compact token, fuses it after visual-language encoding, and jointly predicts action chunks and future wrench sequences.</p>
+              <p class="module-label">01 · Reference Model</p>
+              <h2>Action-and-Wrench Reference Model</h2>
+              <p>The reference model fuses tactile-derived wrench information with vision, language, and robot state to jointly predict reference actions and future wrench sequences.</p>
             </div>
-            <div class="paired-figures">
-              <figure>
-                <img src="static/native/tactile_sensor.png" alt="Tactile-to-wrench mapping." loading="lazy" />
-                <figcaption>Each raw fingertip tactile array is mapped to a calibrated 6D wrench; left and right fingertips are concatenated into the 12D wrench observation.</figcaption>
-              </figure>
-              <figure>
-                <img src="static/native/vlapipeline_2.png" alt="Implementation details of the wrench-aware VLA reference model." loading="lazy" />
-                <figcaption>Wrench-aware reference model: the wrench-history token is fused after visual-language encoding through attention and MoE routing, with a zero-initialized bypass and joint action-wrench prediction head.</figcaption>
-              </figure>
+            <div class="paired-figures reference-figures">
+              <figure><button class="figure-zoom" type="button" data-figure-viewer aria-label="Enlarge figure: Fingertip tactile arrays mapped to force and torque measurements."><img src="static/native/tactile_sensor.png" alt="Fingertip tactile arrays mapped to force and torque measurements." width="2240" height="1305" loading="lazy" /></button><figcaption>Each fingertip tactile array is mapped to a 6D wrench. Left and right fingertips form a 12D observation.</figcaption></figure>
+              <figure><button class="figure-zoom" type="button" data-figure-viewer aria-label="Enlarge figure: Tactile encoding, attention and MoE fusion, and the physical bypass in the reference model."><img src="static/native/vlapipeline_2.png" alt="Tactile encoding, attention and MoE fusion, and the physical bypass in the reference model." width="2934" height="1650" loading="lazy" /></button><figcaption>Tactile encoding, attention and MoE fusion, and a zero-initialized bypass support joint action-and-wrench prediction.</figcaption></figure>
             </div>
+            <details class="method-details"><summary>Wrench Representation and Model Details</summary><div class="details-body">
+              <p>The calibrated vendor SDK maps each 6 × 8 fingertip tactile array to a 6D force–torque wrench. The temporal representation uses 10 observations from the most recent 2 seconds, including the current measurement. Each observation is expressed relative to the current wrench before encoding.</p>
+              <p>The tactile token is appended after visual-language-model encoding and fused through attention and soft-routed mixture-of-experts (MoE). A learnable bypass coefficient is initialized to zero. Future wrench targets are changes relative to the current measurement, w<sub>t+k</sub> − w<sub>t</sub>.</p>
+            </div></details>
           </section>
 
           <section id="online-refinement" class="subsection">
             <div class="section-heading">
-              <h2>Stage-Specific Online Reference Adaptation</h2>
-              <p>The frozen wrench-aware VLA remains the reference policy. Stage II refines only routed contact-critical windows, using measured wrench feedback and predicted future-wrench cues while keeping the reference model fixed.</p>
+              <p class="module-label">02 · Online Refinement</p>
+              <h2>Stage-Specific Online Reference Refinement</h2>
+              <p>With the VLA frozen, lightweight stage-specific actors learn to refine its reference actions using measured wrench feedback and predicted wrench cues.</p>
             </div>
-            <div class="adaptation-showcase" aria-label="Stage-specific online adaptation flow">
-              <article class="adaptation-panel reference-panel interface-panel">
-                <span>Step 1 · Reference interface</span>
-                <h3>Action-and-wrench reference</h3>
-                <p>The frozen wrench-aware VLA predicts a 50-step action sequence and future-wrench sequence; Stage II uses the first 10 steps as A<sub>ref</sub> and W<sub>ref</sub> before replanning.</p>
-                <div class="reference-stack" aria-label="Reference model outputs">
-                  <div>
-                    <strong>A<sub>ref</sub></strong>
-                    <span>executable action reference</span>
+            <div class="refinement-process" aria-label="Reference signals and stage-specific execution">
+              <div class="process-row">
+                <div class="process-heading"><span>01 · Refiner Inputs</span><h3>Action-and-Wrench Reference</h3><p>The VLA remains frozen during online RL.</p></div>
+                <div class="process-content">
+                  <p>The frozen VLA predicts <strong>H = 50</strong> action steps and future wrench changes. The first <strong>K = 10</strong> steps form the references used before replanning.</p>
+                  <div class="reference-signals" aria-label="Reference model outputs">
+                    <div><strong>A<sub>ref</sub></strong><span>Reference action chunk</span></div>
+                    <div><strong>W<sub>ref</sub></strong><span>Predicted wrench changes</span></div>
                   </div>
-                  <div>
-                    <strong>W<sub>ref</sub></strong>
-                    <span>aligned future-wrench cue</span>
-                  </div>
+                  <p class="measured-context"><strong>Inputs for Action Refinement</strong> The refiner combines the references above with current and recent wrench measurements, visual-semantic features, and robot state.</p>
                 </div>
-                <div class="context-chip-grid" aria-label="Online refinement context">
-                  <span>VLA token z<sub>t</sub></span>
-                  <span>proprioception q<sub>t</sub></span>
-                  <span>current wrench w<sub>t</sub></span>
-                  <span>recent measured wrench history</span>
+              </div>
+              <div class="process-row routing-row">
+                <div class="process-heading"><span>02 · Stage Routing</span><h3>Stage-Specific Execution</h3><p>A frozen stage estimator identifies the current task stage.</p></div>
+                <div class="execution-routes" aria-label="Stage-dependent execution routes">
+                  <article><span>Other stages</span><h4>Execute the VLA reference</h4><p>Use the frozen reference action chunk directly.</p><strong class="route-action">A<sub>ref</sub></strong></article>
+                  <article><span>Contact-critical stages</span><h4>Execute the selected actor</h4><p>The stage-specific actor uses the reference signals and feedback to directly output a refined action chunk.</p><strong class="route-action">A<sub>&phi;</sub></strong></article>
                 </div>
-              </article>
-              <article class="adaptation-panel refiner-panel routing-panel">
-                <span>Step 2 · Stage routing</span>
-                <h3>Route each chunk</h3>
-                <p>The stage estimator maps each chunk to base execution or contact-window refinement. Contact bottlenecks activate the matching actor head.</p>
-                <div class="route-split" aria-label="Runtime route choices">
-                  <div>
-                    <strong>Base route</strong>
-                    <span>non-contact approach and transport follow the frozen VLA reference</span>
-                  </div>
-                  <div>
-                    <strong>Stage actor route</strong>
-                    <span>the selected actor head directly outputs A<sub>&phi;</sub></span>
-                  </div>
-                </div>
-                <div class="actor-context" aria-label="Selected actor context">
-                  <span>z<sub>t</sub> + q<sub>t</sub></span>
-                  <span>A<sub>ref</sub></span>
-                  <span>W<sub>ref</sub></span>
-                  <span>w<sub>t</sub></span>
-                  <span>wrench history</span>
-                </div>
-              </article>
-              <article class="adaptation-panel critic-panel learning-panel">
-                <span>Step 3 · Intervention-censored actor-critic learning</span>
-                <h3>Learn from corrections without over-crediting</h3>
-                <p>Q<sub>task</sub> estimates task return, while Q<sub>ic</sub> prevents success after human correction from being assigned to the preceding policy chunk.</p>
-                <div class="critic-flow" aria-label="Critic roles">
-                  <div>
-                    <strong>Task critic</strong>
-                    <span>task return</span>
-                  </div>
-                  <div>
-                    <strong>IC critic</strong>
-                    <span>intervention-censored value</span>
-                  </div>
-                  <div>
-                    <strong>Behavior regularization</strong>
-                    <span>anchors to A<sub>ref</sub> or human corrections</span>
-                  </div>
-                </div>
-              </article>
+              </div>
             </div>
-            <figure class="figure-wide stage-video-figure">
-              <video controls playsinline preload="metadata">
-                <source src="assets/videos/stage-refinement.mp4" type="video/mp4" />
-              </video>
-              <figcaption>Latch-stage online reference adaptation during RL training.</figcaption>
-            </figure>
+            <details class="method-details"><summary>Action Horizon and Stage Selection</summary><div class="details-body">
+              <p>The VLA predicts H = 50 action steps and future wrench changes. The first K = 10 steps define the action and wrench references used before replanning. Actor inputs include current measured wrench, recent measured wrench history, predicted wrench cues, reference actions, proprioception, and compact visual-semantic features.</p>
+              <p>The stage estimator is trained offline and remains frozen during online RL. A route change requires confidence above 0.9 for two consecutive chunks. Contact-critical stages include cup insertion, latch locking, egg grasping and placement, and the two standalone tasks.</p>
+            </div></details>
+
+            <div id="learning-mechanism" class="learning-section">
+              <div class="section-heading"><p class="module-label">Training Mechanism</p><h3>Learning from Policy and Human-Intervention Data</h3><p>Two critics separate task-return learning from intervention-aware action evaluation. A reference-relative hinge guides policy improvement.</p></div>
+              <div class="learning-roles">
+                <article><span>01</span><h4>Task Critic</h4><p>Learns task returns from both policy and human-intervention data.</p></article>
+                <article><span>02</span><h4>Intervention-Censored Critic</h4><p>Stops post-intervention success from being wrongly credited to preceding policy actions by truncating continuation at takeover boundaries.</p></article>
+                <article><span>03</span><h4>Reference-Relative IC-Value Hinge</h4><p>Adds a training penalty when a refined action has a lower IC-critic score than the VLA reference action in the same state.</p></article>
+              </div>
+            </div>
+            <details class="method-details learning-details"><summary>Critic Targets, IC-Value Hinge, and Behavior Regularization</summary><div class="details-body">
+              <div class="training-detail-grid">
+                <section><h4>Critic Targets</h4><p>The task critic retains standard bootstrapping. At a detected takeover boundary, the IC target applies the intervention cost and sets its continuation term to zero.</p></section>
+                <section><h4>Behavior Regularization</h4><dl><div><dt>Policy-controlled steps</dt><dd>Follow the VLA reference.</dd></div><div><dt>Human-controlled steps</dt><dd>Imitate the executed correction.</dd></div></dl></section>
+              </div>
+              <section class="hinge-explanation">
+                <h4>Reference-Relative IC-Value Hinge</h4>
+                <p>Compare the refined and reference actions in the same state.</p>
+                <div class="hinge-equation" tabindex="0" role="region" aria-label="Reference-relative IC-value hinge equation">
+                  <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                    <mrow>
+                      <msub><mrow><mi>Δ</mi><mi>Q</mi></mrow><mtext>ic</mtext></msub><mo>=</mo>
+                      <msub><mrow><mo stretchy="true">[</mo>
+                        <munder><mo>min</mo><mi>i</mi></munder><msubsup><mi>Q</mi><mtext>ic,g</mtext><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow></msubsup><mo>(</mo><msub><mi>c</mi><mi>t</mi></msub><mo>,</mo><msubsup><mi>A</mi><mi>t</mi><mtext>ref</mtext></msubsup><mo>)</mo>
+                        <mo>−</mo>
+                        <munder><mo>min</mo><mi>i</mi></munder><msubsup><mi>Q</mi><mtext>ic,g</mtext><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow></msubsup><mo>(</mo><msub><mi>c</mi><mi>t</mi></msub><mo>,</mo><msubsup><mi>A</mi><mi>t</mi><mi>φ</mi></msubsup><mo>)</mo>
+                      <mo stretchy="true">]</mo></mrow><mo>+</mo></msub>
+                    </mrow>
+                  </math>
+                </div>
+                <div class="hinge-conditions"><p><strong>Penalty active</strong>The refined action has a lower IC-critic score than the reference action.</p><p><strong>No hinge penalty</strong>The refined action scores at least as well as the reference. A low absolute score alone does not activate the hinge.</p></div>
+              </section>
+            </div></details>
+            <figure class="figure-wide stage-video-figure"><video controls playsinline preload="metadata" aria-label="Latch-Lock online RL training demonstration"><source src="assets/videos/stage-refinement.mp4" type="video/mp4" /></video><figcaption>Latch-Lock execution during real-world online RL training.</figcaption></figure>
           </section>
         </section>
 
         <section id="experiments" class="section">
           <div class="section-heading">
             <p class="eyebrow">Experiments</p>
-            <h2>Latch-Box Benchmark</h2>
-            <p>The experiments evaluate contact-centric subtasks, full-task execution, 60-minute throughput, and component ablations under the same robot platform, action representation, demonstrations, and evaluation protocol.</p>
+            <h2>Real-Robot Experiments</h2>
+
           </div>
 
           <section id="experimental-setup" class="subsection">
             <div class="section-heading">
               <h2>Experimental Setup</h2>
-              <p>The benchmark contains three contact-centric subtasks: Coffee Cup for tight insertion under partial occlusion, Latch for mechanical engagement, and Egg for fragile-object grasping and placement. Full-task evaluation completes all stages in one autonomous rollout.</p>
+              <p>The latch-box task combines coffee-cup placement, latch locking, and egg handling in one sequence. Block Placement and Test-Tube Insertion are evaluated independently.</p>
+              <p>Experiments use a Piper arm with a Pika gripper, three camera views, and two Tacta fingertip sensors.</p>
             </div>
 
             <figure class="figure-wide">
-              <img src="static/native/experiment_framework.png" alt="Robot platform with tactile sensors and camera views." loading="lazy" />
-              <figcaption>Real-robot latch-box setup with global, fisheye, and wrist camera views plus dual-fingertip tactile sensing.</figcaption>
+              <button class="figure-zoom" type="button" data-figure-viewer aria-label="Enlarge figure: Robot platform with tactile sensors and camera views."><img src="static/native/experiment_framework.png" alt="Robot platform with tactile sensors and camera views." loading="lazy" width="2934" height="1650" /></button>
+              <figcaption>Real-robot latch-box setup with multi-view vision and dual-fingertip tactile sensing.</figcaption>
             </figure>
 
             <figure class="figure-wide">
-              <img src="static/native/experiment_visualization.png" alt="Coffee cup placement, latch locking, and egg placement task visualization." loading="lazy" />
-              <figcaption>Representative contact-rich subtasks: coffee-cup placement, latch locking, and egg placement.</figcaption>
+              <a href="static/paper-update/tasks.pdf" target="_blank" rel="noreferrer" aria-label="Enlarge figure: Three snapshots each of coffee-cup placement, latch locking, egg placement, test-tube insertion, and block placement." data-figure-viewer="" class="figure-zoom">
+                <img src="static/paper-update/tasks.png" alt="Three snapshots each of coffee-cup placement, latch locking, egg placement, test-tube insertion, and block placement." width="2520" height="1206" loading="lazy" />
+              </a>
+              <figcaption>Representative contact-rich tasks, including coffee-cup placement, latch locking, egg placement, test-tube insertion, and block placement.</figcaption>
             </figure>
 
             <div class="section-heading">
               <h2>Evaluation Protocol</h2>
-              <p>Success and failure are scored at the task-outcome level, not from internal wrench traces. Each method is evaluated over 30 autonomous trials for subtask and full-task success; final autonomous evaluation uses no human intervention, reset, safety-stop recovery, or online parameter update.</p>
+              <p>Each subtask, full task, and standalone task is tested over 30 autonomous trials with all model parameters fixed. Full-task success requires completing the three latch-box subtasks in sequence without human intervention, reset, safety stop, object drop, or damage.</p>
             </div>
-            <div class="table-wrap">
+            <details class="protocol-details">
+              <summary>Task Outcome Criteria</summary>
+              <div class="details-body">
+                <p class="note">Trial outcomes are judged after execution using the physical criteria below. These judgments are used for reporting only.</p>
+                <div class="table-wrap">
               <table>
                 <thead>
                   <tr><th>Task</th><th>Success condition</th><th>Failure condition</th></tr>
@@ -284,12 +248,14 @@
                 </tbody>
               </table>
             </div>
+              </div>
+            </details>
           </section>
 
           <section id="performance" class="subsection">
             <div class="section-heading">
-              <h2>Main Results on Contact-Rich Tasks</h2>
-              <p>Each method is evaluated over 30 autonomous trials. TORL-VLA improves full-task completion from 12/30 with the base &pi;<sub>0.5</sub> policy to 28/30 and achieves the lowest average time over successful full-task trials.</p>
+              <h2>Performance on Contact-Rich Tasks</h2>
+              <p>TORL-VLA improves full-task success and completion time over the offline and online refinement baselines.</p>
             </div>
 
             <div class="metrics performance-metrics" aria-label="Key performance results">
@@ -301,18 +267,9 @@
                 <strong>165.45 s</strong>
                 <span>Full-task average time</span>
               </div>
-              <div>
-                <strong>30/30</strong>
-                <span>Coffee Cup</span>
-              </div>
-              <div>
-                <strong>29/30</strong>
-                <span>Latch</span>
-              </div>
-              <div>
-                <strong>30/30</strong>
-                <span>Egg</span>
-              </div>
+
+
+
             </div>
 
             <div class="table-wrap">
@@ -331,13 +288,13 @@
                   <tr><td>&pi;<sub>0.5</sub></td><td>18/30</td><td>15/30</td><td>20/30</td><td>12/30</td><td>199.65 s</td></tr>
                   <tr><td>TA-VLA</td><td>19/30</td><td>17/30</td><td>20/30</td><td>12/30</td><td>204.45 s</td></tr>
                   <tr><td>ForceVLA</td><td>21/30</td><td>20/30</td><td>22/30</td><td>15/30</td><td>195.34 s</td></tr>
-                  <tr><td>TORL-VLA without RL</td><td>25/30</td><td>23/30</td><td>25/30</td><td>21/30</td><td>191.91 s</td></tr>
+                  <tr><td>TORL-VLA w/o RL</td><td>25/30</td><td>23/30</td><td>25/30</td><td>21/30</td><td>191.91 s</td></tr>
                   <tr><td>RLT</td><td>26/30</td><td>25/30</td><td>25/30</td><td>23/30</td><td>175.23 s</td></tr>
                   <tr class="best"><td>TORL-VLA</td><td>30/30</td><td>29/30</td><td>30/30</td><td>28/30</td><td>165.45 s</td></tr>
                 </tbody>
               </table>
             </div>
-            <p class="note">RLT denotes the matched reference-guided online refinement baseline; unlike TORL-VLA, it does not use wrench input during online refinement and does not include the intervention-censored critic.</p>
+            <p class="note">Full-task average time is computed over successful full-task trials. TORL-VLA w/o RL directly executes the learned reference; RLT uses the same frozen reference-guided refinement setting but omits wrench input and the intervention-censored critic.</p>
 
             <div class="chart-grid" aria-label="Visual summary of main results">
               <article class="chart-card">
@@ -364,6 +321,772 @@
                   <div class="highlight" style="--value: 80.9;"><span>TORL-VLA</span><i>165.45 s</i></div>
                 </div>
               </article>
+
+            </div>
+            <p class="note result-explanation">RLT’s Egg failures mainly arise from overly aggressive grasps, whereas TORL-VLA w/o RL fails primarily from imprecise grasp positioning.</p>
+          </section>
+
+
+          <section id="standalone-results" class="subsection">
+            <div class="section-heading">
+              <p class="eyebrow">Independent Evaluation</p>
+              <h2>Standalone Tasks</h2>
+              <p>Block Placement and Test-Tube Insertion test contact-guided alignment beyond the latch-box task. Each method is evaluated over 30 autonomous trials per task.</p>
+            </div>
+            <div class="evidence-grid">
+              <article class="evidence-card">
+                <span>Block Placement</span>
+                <strong>30/30</strong>
+                <p>&pi;<sub>0.5</sub>: 18/30 &nbsp;&middot;&nbsp; TORL-VLA w/o RL: 24/30</p>
+              </article>
+              <article class="evidence-card">
+                <span>Test-Tube Insertion</span>
+                <strong>29/30</strong>
+                <p>&pi;<sub>0.5</sub>: 17/30 &nbsp;&middot;&nbsp; TORL-VLA w/o RL: 23/30</p>
+              </article>
+            </div>
+            <div class="table-wrap">
+              <table id="standalone-table" class="compact-table">
+                <thead><tr><th scope="col">Method</th><th scope="col">Block Placement</th><th scope="col">Test-Tube Insertion</th></tr></thead>
+                <tbody>
+                  <tr><td>&pi;<sub>0.5</sub></td><td>18/30</td><td>17/30</td></tr>
+                  <tr><td>TA-VLA</td><td>20/30</td><td>21/30</td></tr>
+                  <tr><td>ForceVLA</td><td>19/30</td><td>20/30</td></tr>
+                  <tr><td>TORL-VLA w/o RL</td><td>24/30</td><td>23/30</td></tr>
+                  <tr><td>RLT</td><td>24/30</td><td>24/30</td></tr>
+                  <tr class="best"><td>TORL-VLA</td><td>30/30</td><td>29/30</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="note">These standalone trials are excluded from latch-box full-task success and full-task average time. Representative videos appear in <a href="#supplementary-rl">Standalone Task Demonstrations</a>.</p>
+          </section>
+
+          <section id="ablations" class="subsection">
+            <div class="section-heading">
+              <h2>Ablation Studies</h2>
+              <p>We remove individual reference-model components, then test online RL without wrench feedback or without the IC critic to measure their contributions to task success.</p>
+            </div>
+            <div class="table-pair">
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr><th>Reference Model</th><th>Cup</th><th>Latch</th><th>Egg</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Without wrench history token</td><td>24/30</td><td>22/30</td><td>22/30</td></tr>
+                    <tr><td>Without future wrench prediction</td><td>25/30</td><td>21/30</td><td>24/30</td></tr>
+                    <tr><td>Without MoE fusion</td><td>18/30</td><td>17/30</td><td>19/30</td></tr>
+                    <tr><td>Without physical bypass</td><td>23/30</td><td>20/30</td><td>21/30</td></tr>
+                    <tr class="best"><td>Full reference, without RL</td><td>25/30</td><td>23/30</td><td>25/30</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr><th>Online RL</th><th>Cup</th><th>Latch</th><th>Egg</th><th>Full Task</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Without wrench context</td><td>27/30</td><td>27/30</td><td>26/30</td><td>26/30</td></tr>
+                    <tr><td>Without IC critic</td><td>27/30</td><td>26/30</td><td>28/30</td><td>24/30</td></tr>
+                    <tr class="best"><td>Full TORL-VLA</td><td>30/30</td><td>29/30</td><td>30/30</td><td>28/30</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <p class="note">Removing MoE causes the largest drop in the reference-model ablation. Removing wrench context lowers full-task success from 28/30 to 26/30; removing the IC critic lowers it to 24/30.</p>
+          <section id="online-curves" class="subsection">
+            <div class="section-heading">
+              <h2>Online RL Post-Training on Latch</h2>
+              <p>The IC critic supports faster improvement early in Latch training. Policies are compared at the same accumulated interaction times using a shared frozen reference and matched interaction budgets.</p>
+            </div>
+            <div class="paired-figures">
+              <figure>
+                <a href="static/paper-update/throughput-curve.pdf" target="_blank" rel="noreferrer" aria-label="Enlarge figure: Latch successes within a fixed 10-minute evaluation window at each online-data checkpoint." data-figure-viewer="" class="figure-zoom">
+                  <img src="static/paper-update/throughput-curve.png" alt="Latch successes within a fixed 10-minute evaluation window at each online-data checkpoint." width="2978" height="1606" loading="lazy" />
+                </a>
+                <figcaption>Successful Latch completions during a fixed 10-minute autonomous evaluation. The horizontal axis is accumulated online interaction time in minutes; parameters are fixed during each evaluation.</figcaption>
+              </figure>
+              <figure>
+                <a href="static/paper-update/success-rate-curve.pdf" target="_blank" rel="noreferrer" aria-label="Enlarge figure: Latch success rate at the same accumulated online-data checkpoints." data-figure-viewer="" class="figure-zoom">
+                  <img src="static/paper-update/success-rate-curve.png" alt="Latch success rate at the same accumulated online-data checkpoints." width="2976" height="1598" loading="lazy" />
+                </a>
+                <figcaption>Latch success rate at the same interaction checkpoints. Each variant collects its own training rollouts and is evaluated with fixed parameters.</figcaption>
+              </figure>
+            </div>
+          </section>
+          </section>
+        </section>
+
+
+        <section id="intervention-analysis" class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Intervention Learning</p>
+            <h2>Intervention-Censored Learning Analysis</h2>
+            <p>On Latch-Lock, we compare learning from human interventions and test how incorrect intervention-boundary labels affect final task success.</p>
+          </div>
+          <div class="intervention-results">
+            <div class="intervention-comparison">
+              <h3>False Intervention Boundaries · Latch-Lock</h3>
+              <div class="table-wrap">
+            <table id="false-boundary-table" class="compact-table">
+              <thead><tr><th scope="col">Method</th><th scope="col">Clean Training</th><th scope="col">False Boundary</th><th scope="col">Success Drop</th></tr></thead>
+              <tbody>
+                <tr><td>RLIF-style</td><td>25/30</td><td>18/30</td><td>7/30</td></tr>
+                <tr class="best"><td>TORL-VLA</td><td>29/30</td><td>27/30</td><td>2/30</td></tr>
+              </tbody>
+            </table>
+          </div>
+              <p class="note">One false takeover boundary is added per training episode. Final evaluation uses fixed parameters over 30 autonomous trials, without injected boundaries.</p>
+            </div>
+            <article class="evidence-card cost-result">
+              <span>Latch-Lock · Zero intervention cost</span>
+              <strong>28/30</strong>
+              <p>TORL-VLA retains 28 successes out of 30 when the scalar intervention cost is set to zero.</p>
+            </article>
+          </div>
+          <details>
+            <summary>Intervention cost and boundary-threshold sensitivity</summary>
+            <div class="details-body">
+                <p class="protocol-explanation">One originally non-boundary chunk per online-training episode is randomly relabeled as a boundary before replay updates. Logged control-source labels, actions, rewards, and other transition fields remain unchanged. Both methods use matched interaction budgets; final evaluation is frozen and perturbation-free.</p>
+              <p>The best tested RLIF-style intervention cost is c<sub>int</sub> = 0.5. TORL-VLA is evaluated across c<sub>int</sub> &isin; {0, 0.5, 1.0, 2.0} and &rho;<sub>int</sub> &isin; {0.3, 0.5, 0.7}. The chunk-level boundary rule uses &rho;<sub>int</sub> = 0.5.</p>
+              <div class="table-wrap">
+                <table id="intervention-cost-table" class="compact-table">
+                  <thead><tr><th scope="col">Method</th><th scope="col">Intervention Costs c<sub>int</sub></th><th scope="col">Latch-Lock Successes / 30</th></tr></thead>
+                  <tbody>
+                    <tr><td>RLIF-style</td><td>0.1 / 0.5 / 1.0 / 2.0</td><td>23 / 25 / 21 / 19</td></tr>
+                    <tr class="best"><td>TORL-VLA</td><td>0 / 0.5 / 1.0 / 2.0</td><td>28 / 28 / 29 / 27</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="table-wrap">
+                <table id="boundary-threshold-table" class="compact-table">
+                  <thead><tr><th scope="col">Boundary Threshold &rho;<sub>int</sub></th><th scope="col">0.3</th><th scope="col">0.5</th><th scope="col">0.7</th></tr></thead>
+                  <tbody><tr class="best"><td>TORL-VLA Latch-Lock</td><td>28/30</td><td>29/30</td><td>29/30</td></tr></tbody>
+                </table>
+              </div>
+              <p class="note">The threshold is applied to the human-controlled fraction of adjacent action chunks during training. Control-source labels are used for learning and are not actor inputs.</p>
+            </div>
+          </details>
+        </section>
+
+        <section id="future-wrench" class="section">
+            <div class="section-heading">
+              <p class="eyebrow">Contact Prediction</p>
+              <h2>Future-Wrench Prediction</h2>
+              <p>Predicted changes in left-fingertip force follow the main trends and transients of the measured force over the next 50 steps.</p>
+            </div>
+            <figure class="figure-wide">
+              <a href="static/paper-update/future-wrench-delta.pdf" target="_blank" rel="noreferrer" aria-label="Enlarge figure: Ground-truth and predicted changes in left-fingertip Fx, Fy, and Fz, in newtons relative to current force, over 50 future steps." data-figure-viewer="" class="figure-zoom">
+                <img src="static/paper-update/future-wrench-delta.png" alt="Ground-truth and predicted changes in left-fingertip Fx, Fy, and Fz, in newtons relative to current force, over 50 future steps." width="2953" height="734" loading="lazy" />
+              </a>
+              <figcaption>Force changes relative to the current measurement, in newtons. Blue solid lines show measured changes; red dashed lines show predictions.</figcaption>
+            </figure>
+          </section>
+
+        <section id="contact-generalization" class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Contact Generalization</p>
+            <h2>Generalization to Changes in Friction and Compliance</h2>
+            <p>All policies are trained under nominal contact conditions. We then change latch-hinge friction and use a softer cup, with model parameters fixed during testing and nearly unchanged visual appearance.</p>
+          </div>
+
+          <div class="table-pair contact-tables">
+            <div class="contact-result-card">
+              <h3>Latch-Hinge Friction</h3>
+              <p class="card-intro">Low, nominal, and high hinge friction.</p>
+              <div class="table-wrap">
+                <table id="friction-table" class="compact-table">
+                  <thead><tr><th scope="col">Method</th><th scope="col">Low</th><th scope="col">Nominal</th><th scope="col">High</th></tr></thead>
+                  <tbody>
+                    <tr><td>&pi;<sub>0.5</sub></td><td>10/30</td><td>15/30</td><td>8/30</td></tr>
+                    <tr><td>TORL-VLA w/o RL</td><td>18/30</td><td>23/30</td><td>15/30</td></tr>
+                    <tr class="best"><td>TORL-VLA</td><td>27/30</td><td>29/30</td><td>26/30</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="contact-result-card">
+              <h3>Cup Material</h3>
+              <p class="card-intro">Normal and softened cup material.</p>
+              <div class="table-wrap">
+                <table id="compliance-table" class="compact-table">
+                  <thead><tr><th scope="col">Method</th><th scope="col">Normal</th><th scope="col">Softened</th></tr></thead>
+                  <tbody>
+                    <tr><td>&pi;<sub>0.5</sub></td><td>18/30</td><td>10/30</td></tr>
+                    <tr><td>TORL-VLA w/o RL</td><td>25/30</td><td>18/30</td></tr>
+                    <tr class="best"><td>TORL-VLA</td><td>30/30</td><td>27/30</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <p class="note">Entries are successes out of 30. TORL-VLA degrades substantially less than &pi;<sub>0.5</sub> and TORL-VLA w/o RL across both unseen physical-property shifts.</p>
+        </section>
+
+        <section id="tactile-correction" class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Tactile-Guided Correction</p>
+            <h2>Tactile-Guided Correction under Visual Ambiguity</h2>
+            <p>We compare a representative latch-flipping failure with a successful TORL-VLA rollout. Around the critical contact state, camera observations look similar, while fingertip wrench measurements reveal mechanical jamming.</p>
+          </div>
+          <figure class="figure-wide case-study-figure">
+            <a href="static/paper-update/latch-case-study.pdf" target="_blank" rel="noreferrer" aria-label="Enlarge figure: Synchronized comparison of a base-policy latch jam and TORL-VLA success, with three camera views, Cartesian trajectories, and right-fingertip force traces." data-figure-viewer="" class="figure-zoom">
+              <img src="static/paper-update/latch-case-study.png" alt="Synchronized comparison of a base-policy latch jam and TORL-VLA success, with three camera views, Cartesian trajectories, and right-fingertip force traces." width="2962" height="1489" loading="lazy" />
+            </a>
+            <figcaption>Camera views, end-effector motion, and right-fingertip forces are aligned in time within each rollout. F<sub>y</sub> points backward and F<sub>x</sub> downward in the displayed sensor frame.</figcaption>
+          </figure>
+          <div class="case-metrics">
+            <article class="case-metric failure">
+              <span>Base &pi;<sub>0.5</sub> · Jammed latch</span>
+              <strong>6.50 N <span>/</span> 1.28 N</strong>
+              <p>Peak / mean |F<sub>y</sub>| in the illustrated failed rollout.</p>
+            </article>
+            <article class="case-metric success">
+              <span>TORL-VLA · Successful correction</span>
+              <strong>1.70 N <span>/</span> 0.27 N</strong>
+              <p>Peak / mean |F<sub>y</sub>| in the illustrated successful rollout.</p>
+            </article>
+          </div>
+          <p class="note">These force statistics describe the two representative rollouts. Aggregate task performance is reported separately in the 30-trial evaluations.</p>
+
+
+        </section>
+
+        <section id="supplementary-experiments" class="section supplementary-section">
+          <div class="section-heading">
+            <p class="eyebrow">Demonstrations</p>
+            <h2>Contact-Rich Task Demonstrations</h2>
+            <p>Seven tasks illustrate contact-rich execution: five compare the base VLA with the wrench-aware reference, and two additionally evaluate stage-specific online RL refinement.</p>
+          </div>
+
+          <section id="supplementary-reference" class="subsection">
+            <div class="section-heading">
+              <h2>Reference Model Demonstrations</h2>
+              <p>These five tasks compare the base VLA with the wrench-aware reference model, without online RL refinement. They examine contact-aware execution using tactile-derived wrench information and future-wrench prediction.</p>
+            </div>
+
+            <div class="supplement-tabs" data-supplement-tabs>
+              <div class="supplement-tab-list" role="tablist" aria-label="Tactile-aware reference task selector">
+                <button class="supplement-tab active" type="button" data-tab-target="tactile-bottle" aria-selected="true" role="tab" id="tab-tactile-bottle" aria-controls="panel-tactile-bottle">Bottle Reorientation</button>
+                <button class="supplement-tab" type="button" data-tab-target="tactile-cup" aria-selected="false" role="tab" id="tab-tactile-cup" aria-controls="panel-tactile-cup">Cup Grasping</button>
+                <button class="supplement-tab" type="button" data-tab-target="tactile-pingpong" aria-selected="false" role="tab" id="tab-tactile-pingpong" aria-controls="panel-tactile-pingpong">Ping-pong Ball</button>
+                <button class="supplement-tab" type="button" data-tab-target="tactile-jelly" aria-selected="false" role="tab" id="tab-tactile-jelly" aria-controls="panel-tactile-jelly">Jelly Grasping</button>
+                <button class="supplement-tab" type="button" data-tab-target="tactile-whiteboard" aria-selected="false" role="tab" id="tab-tactile-whiteboard" aria-controls="panel-tactile-whiteboard">Whiteboard Erasing</button>
+              </div>
+
+              <div class="supplement-panel active" data-tab-panel="tactile-bottle" role="tabpanel" id="panel-tactile-bottle" aria-labelledby="tab-tactile-bottle">
+                <div class="supplement-brief">
+                  <div>
+                    <h3>Bottle Reorientation</h3>
+                    <p>Reorienting the bottle requires contact-aware direction control after the gripper establishes contact with the object.</p>
+                  </div>
+                  <div class="supplement-result-card">
+                    <span>Success Rate</span>
+                    <strong>Bottle Reorientation</strong>
+                    <div class="rate-list">
+                      <div class="rate-head"><span>Method</span><span>Success Rate</span></div>
+                      <div style="--rate: 80;"><span>&pi;<sub>0.5</sub></span><b>80.0%</b><i></i></div>
+                      <div class="highlight" style="--rate: 100;"><span>Wrench-aware reference</span><b>100.0%</b><i></i></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="supplement-video-grid two-up">
+                  <article class="supplement-video-card">
+                    <h4>&pi;<sub>0.5</sub></h4>
+                    <video controls playsinline muted preload="metadata"><source src="assets/videos/supplementary/bottle-pi05.mp4" type="video/mp4" /></video>
+                    <p>Base policy succeeds on many trials but remains sensitive to final contact direction.</p>
+
+                  </article>
+                  <article class="supplement-video-card">
+                    <h4>Wrench-aware reference</h4>
+                    <video controls playsinline muted preload="metadata"><source src="assets/videos/supplementary/bottle-wrench.mp4" type="video/mp4" /></video>
+                    <p>Wrench-aware action references improve reorientation consistency.</p>
+
+                  </article>
+                </div>
+              </div>
+
+              <div class="supplement-panel" data-tab-panel="tactile-cup" hidden role="tabpanel" id="panel-tactile-cup" aria-labelledby="tab-tactile-cup">
+                <div class="supplement-brief">
+                  <div>
+                    <h3>Cup Grasping</h3>
+                    <p>Nested-cup friction requires extracting only the top cup without slipping or lifting multiple cups together.</p>
+                  </div>
+                  <div class="supplement-result-card">
+                    <span>Success Rate</span>
+                    <strong>Cup Grasping</strong>
+                    <div class="rate-list">
+                      <div class="rate-head"><span>Method</span><span>Success Rate</span></div>
+                      <div style="--rate: 80;"><span>&pi;<sub>0.5</sub></span><b>80.0%</b><i></i></div>
+                      <div class="highlight" style="--rate: 100;"><span>Wrench-aware reference</span><b>100.0%</b><i></i></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="supplement-video-grid two-up">
+                  <article class="supplement-video-card">
+                    <h4>&pi;<sub>0.5</sub></h4>
+                    <video controls playsinline muted preload="none"><source src="assets/videos/supplementary/cup-pi05.mp4" type="video/mp4" /></video>
+                    <p>The base policy applies excessive grasping force, preventing the nested cups from being separated.</p>
+
+                  </article>
+                  <article class="supplement-video-card">
+                    <h4>Wrench-aware reference</h4>
+                    <video controls playsinline muted preload="none"><source src="assets/videos/supplementary/cup-wrench.mp4" type="video/mp4" /></video>
+                    <p>Wrench-aware reference signals help regulate the contact force appropriately, allowing the nested cups to separate.</p>
+
+                  </article>
+                </div>
+              </div>
+
+              <div class="supplement-panel" data-tab-panel="tactile-pingpong" hidden role="tabpanel" id="panel-tactile-pingpong" aria-labelledby="tab-tactile-pingpong">
+                <div class="supplement-brief">
+                  <div>
+                    <h3>Ping-pong Ball</h3>
+                    <p>Ping-pong ball grasping tests force-sensitive handling of a spherical object that can deform under excessive grip force.</p>
+                  </div>
+                  <div class="supplement-result-card">
+                    <span>Success Rate</span>
+                    <strong>Ping-pong Ball</strong>
+                    <div class="rate-list">
+                      <div class="rate-head"><span>Method</span><span>Success Rate</span></div>
+                      <div style="--rate: 80;"><span>&pi;<sub>0.5</sub></span><b>80.0%</b><i></i></div>
+                      <div class="highlight" style="--rate: 90;"><span>Wrench-aware reference</span><b>90.0%</b><i></i></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="supplement-video-grid two-up">
+                  <article class="supplement-video-card">
+                    <h4>&pi;<sub>0.5</sub></h4>
+                    <video controls playsinline muted preload="none"><source src="assets/videos/supplementary/pingpong-pi05.mp4" type="video/mp4" /></video>
+                    <p>Base policy already reaches high success but must avoid over-compressing the ball.</p>
+
+                  </article>
+                  <article class="supplement-video-card">
+                    <h4>Wrench-aware reference</h4>
+                    <video controls playsinline muted preload="none"><source src="assets/videos/supplementary/pingpong-wrench.mp4" type="video/mp4" /></video>
+                    <p>Wrench-aware references preserve high success on this force-sensitive grasp.</p>
+
+                  </article>
+                </div>
+              </div>
+
+              <div class="supplement-panel" data-tab-panel="tactile-jelly" hidden role="tabpanel" id="panel-tactile-jelly" aria-labelledby="tab-tactile-jelly">
+                <div class="supplement-brief">
+                  <div>
+                    <h3>Jelly Grasping</h3>
+                    <p>Open jelly cups require gentle contact: excessive force can squeeze the jelly out, while insufficient force can cause slip.</p>
+                  </div>
+                  <div class="supplement-result-card">
+                    <span>Success Rate</span>
+                    <strong>Jelly Grasping</strong>
+                    <div class="rate-list">
+                      <div class="rate-head"><span>Method</span><span>Success Rate</span></div>
+                      <div style="--rate: 70;"><span>&pi;<sub>0.5</sub></span><b>70.0%</b><i></i></div>
+                      <div class="highlight" style="--rate: 100;"><span>Wrench-aware reference</span><b>100.0%</b><i></i></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="supplement-video-grid two-up">
+                  <article class="supplement-video-card">
+                    <h4>&pi;<sub>0.5</sub></h4>
+                    <video controls playsinline muted preload="none"><source src="assets/videos/supplementary/jelly-pi05.mp4" type="video/mp4" /></video>
+                    <p>Base policy is sensitive to slip and excessive squeezing during grasping.</p>
+
+                  </article>
+                  <article class="supplement-video-card">
+                    <h4>Wrench-aware reference</h4>
+                    <video controls playsinline muted preload="none"><source src="assets/videos/supplementary/jelly-wrench.mp4" type="video/mp4" /></video>
+                    <p>Wrench-aware references improve gentle handling of the open jelly cup.</p>
+
+                  </article>
+                </div>
+              </div>
+
+              <div class="supplement-panel" data-tab-panel="tactile-whiteboard" hidden role="tabpanel" id="panel-tactile-whiteboard" aria-labelledby="tab-tactile-whiteboard">
+                <div class="supplement-brief">
+                  <div>
+                    <h3>Whiteboard Erasing</h3>
+                    <p>Whiteboard erasing evaluates sustained contact while the end effector moves along the surface.</p>
+                  </div>
+                  <div class="supplement-result-card">
+                    <span>Success Rate</span>
+                    <strong>Whiteboard Erasing</strong>
+                    <div class="rate-list">
+                      <div class="rate-head"><span>Method</span><span>Success Rate</span></div>
+                      <div style="--rate: 100;"><span>&pi;<sub>0.5</sub></span><b>100.0%</b><i></i></div>
+                      <div class="highlight" style="--rate: 100;"><span>Wrench-aware reference</span><b>100.0%</b><i></i></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="supplement-video-grid two-up">
+                  <article class="supplement-video-card">
+                    <h4>&pi;<sub>0.5</sub></h4>
+                    <video controls playsinline muted preload="none"><source src="assets/videos/supplementary/whiteboard-pi05.mp4" type="video/mp4" /></video>
+                    <p>The base policy already solves this visually observable wiping task reliably.</p>
+
+                  </article>
+                  <article class="supplement-video-card">
+                    <h4>Wrench-aware reference</h4>
+                    <video controls playsinline muted preload="none"><source src="assets/videos/supplementary/whiteboard-wrench.mp4" type="video/mp4" /></video>
+                    <p>Wrench-aware reference signals preserve the same reliable wiping performance.</p>
+
+                  </article>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="supplementary-rl" class="subsection">
+            <div class="section-heading">
+              <h2>Standalone Task Demonstrations</h2>
+              <p>Block Placement and Test-Tube Insertion require fine alignment after initial contact. We compare the base VLA, TORL-VLA w/o RL, and TORL-VLA to show how online refinement adjusts contact during placement and insertion.</p>
+            </div>
+
+            <div class="supplement-tabs rl-tabs" data-supplement-tabs>
+              <div class="supplement-tab-list" role="tablist" aria-label="Online RL refinement task selector">
+                <button class="supplement-tab active" type="button" data-tab-target="rl-block" aria-selected="true" role="tab" id="tab-rl-block" aria-controls="panel-rl-block">Block Placement</button>
+                <button class="supplement-tab" type="button" data-tab-target="rl-tube" aria-selected="false" role="tab" id="tab-rl-tube" aria-controls="panel-rl-tube">Test-Tube Insertion</button>
+              </div>
+
+              <div class="supplement-panel active" data-tab-panel="rl-block" role="tabpanel" id="panel-rl-block" aria-labelledby="tab-rl-block">
+                <div class="supplement-brief">
+                  <div>
+                    <h3>Block Placement</h3>
+                    <p>Block placement requires fine contact-guided alignment before the object can be released stably.</p>
+                  </div>
+                  <div class="supplement-result-card">
+                    <span>30-Trial Evaluation</span>
+                    <strong>Block Placement</strong>
+                    <div class="rate-list">
+                      <div class="rate-head"><span>Method</span><span>Successes</span></div>
+                      <div class="" style="--rate: 60;"><span>&pi;<sub>0.5</sub></span><b>18/30</b><i></i></div><div class="" style="--rate: 80;"><span>TORL-VLA w/o RL</span><b>24/30</b><i></i></div><div class="highlight" style="--rate: 100;"><span>TORL-VLA</span><b>30/30</b><i></i></div>
+                    </div>
+                  </div>
+                </div>
+                <p class="supplement-note">Counts match the main standalone evaluation. Videos illustrate representative executions.</p>
+                <div class="supplement-video-grid three-up">
+                  <article class="supplement-video-card">
+                    <h4>&pi;<sub>0.5</sub></h4>
+                    <video controls playsinline muted preload="metadata"><source src="assets/videos/supplementary/block-pi05.mp4" type="video/mp4" /></video>
+                    <p>Base policy can leave final alignment errors.</p>
+
+                  </article>
+                  <article class="supplement-video-card">
+                    <h4>TORL-VLA w/o RL</h4>
+                    <video controls playsinline muted preload="metadata"><source src="assets/videos/supplementary/block-wrench.mp4" type="video/mp4" /></video>
+                    <p>Wrench-aware reference uses tactile-derived wrench cues for contact-aware placement.</p>
+
+                  </article>
+                  <article class="supplement-video-card">
+                    <h4>TORL-VLA</h4>
+                    <video controls playsinline muted preload="metadata"><source src="assets/videos/supplementary/block-rl.mp4" type="video/mp4" /></video>
+                    <p>Online refinement corrects contact alignment before release.</p>
+
+                  </article>
+                </div>
+              </div>
+
+              <div class="supplement-panel" data-tab-panel="rl-tube" hidden role="tabpanel" id="panel-rl-tube" aria-labelledby="tab-rl-tube">
+                <div class="supplement-brief">
+                  <div>
+                    <h3>Test-Tube Insertion</h3>
+                    <p>Test-tube insertion requires aligning orientation and position with a narrow holder after initial contact.</p>
+                  </div>
+                  <div class="supplement-result-card">
+                    <span>30-Trial Evaluation</span>
+                    <strong>Test-Tube Insertion</strong>
+                    <div class="rate-list">
+                      <div class="rate-head"><span>Method</span><span>Successes</span></div>
+                      <div class="" style="--rate: 56.7;"><span>&pi;<sub>0.5</sub></span><b>17/30</b><i></i></div><div class="" style="--rate: 76.7;"><span>TORL-VLA w/o RL</span><b>23/30</b><i></i></div><div class="highlight" style="--rate: 96.7;"><span>TORL-VLA</span><b>29/30</b><i></i></div>
+                    </div>
+                  </div>
+                </div>
+                <p class="supplement-note">Counts match the main standalone evaluation. Videos illustrate representative executions.</p>
+                <div class="supplement-video-grid three-up">
+                  <article class="supplement-video-card">
+                    <h4>&pi;<sub>0.5</sub></h4>
+                    <video controls playsinline muted preload="none"><source src="assets/videos/supplementary/tube-pi05.mp4" type="video/mp4" /></video>
+                    <p>Base policy can leave angular or translational placement errors.</p>
+
+                  </article>
+                  <article class="supplement-video-card">
+                    <h4>TORL-VLA w/o RL</h4>
+                    <video controls playsinline muted preload="none"><source src="assets/videos/supplementary/tube-wrench.mp4" type="video/mp4" /></video>
+                    <p>Wrench-aware reference uses tactile-derived wrench cues for contact-aware placement.</p>
+
+                  </article>
+                  <article class="supplement-video-card">
+                    <h4>TORL-VLA</h4>
+                    <video controls playsinline muted preload="none"><source src="assets/videos/supplementary/tube-rl.mp4" type="video/mp4" /></video>
+                    <p>Online refinement adjusts orientation and contact during insertion.</p>
+
+                  </article>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <section id="analysis" class="section">
+          <div class="section-heading">
+            <p class="eyebrow">Analysis &amp; Details</p>
+            <h2>Analysis and Implementation</h2>
+            <p>Explore the training setup, measured contact dynamics, wrench predictions, intervention learning, stage selection, and system runtime.</p>
+          </div>
+
+          <div class="accordion">
+            <details id="training-data">
+              <summary>Training data and online interaction budgets</summary>
+              <div class="details-body">
+                <p>The reference uses 539 full-task latch-box demonstrations, 327 Block Placement demonstrations, and 338 Test-Tube Insertion demonstrations. Six independent stage-specific refiners are trained through real-world interaction.</p>
+                <div class="table-wrap">
+                  <table id="interaction-budget-table" class="compact-table">
+                    <thead><tr><th scope="col">Refiner</th><th scope="col">Online Interaction</th></tr></thead>
+                    <tbody>
+                      <tr><td>Coffee Cup</td><td>23.5 min</td></tr>
+                      <tr><td>Latch-Lock</td><td>55.3 min</td></tr>
+                      <tr><td>Egg Grasp</td><td>29.2 min</td></tr>
+                      <tr><td>Egg Placement</td><td>27.8 min</td></tr>
+                      <tr><td>Block Placement</td><td>26.9 min</td></tr>
+                      <tr><td>Test-Tube Insertion</td><td>35.7 min</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p class="note">Interaction time counts robot execution during online data collection, excluding resets and environment preparation. Observations are queried at 20 Hz and timestamp-aligned. Human stage-success judgments supply sparse binary rewards during training; final evaluation is autonomous.</p>
+              </div>
+            </details><details id="current-settings">
+              <summary>Reference and Online RL Settings</summary>
+              <div class="details-body">
+                <div class="table-pair">
+                  <div class="table-wrap">
+                    <table id="reference-settings-table" class="compact-table">
+                      <thead><tr><th>Reference / Observation</th><th>Value</th></tr></thead>
+                      <tbody>
+                        <tr><td>Reference horizon H</td><td>50</td></tr>
+                        <tr><td>Executed horizon K</td><td>10</td></tr>
+                        <tr><td>Action / wrench dimension</td><td>7 / 12</td></tr>
+                        <tr><td>Observation query frequency</td><td>20 Hz</td></tr>
+                        <tr><td>Wrench history samples / window</td><td>10 / 2.0 s</td></tr>
+                        <tr><td>Wrench prediction loss weight</td><td>0.3</td></tr>
+                        <tr><td>Stage-estimator held-out accuracy</td><td>95.5% (chunk-level)</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="table-wrap">
+                    <table id="rl-settings-table" class="compact-table">
+                      <thead><tr><th>Online RL</th><th>Value</th></tr></thead>
+                      <tbody>
+                        <tr><td>Discount factor &gamma;</td><td>0.99</td></tr>
+                        <tr><td>Update-to-data ratio</td><td>5</td></tr>
+                        <tr><td>Critic / actor update ratio</td><td>2:1</td></tr>
+                        <tr><td>Target-network EMA &tau;</td><td>0.005</td></tr>
+                        <tr><td>Hidden width</td><td>256</td></tr>
+                        <tr><td>Actor / critic layers</td><td>3 / 3; Latch-Lock: 4 / 4</td></tr>
+                        <tr><td>Boundary threshold &rho;<sub>int</sub></td><td>0.5</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <p class="note">The VLA, token module, and stage estimator remain frozen during Stage II. All parameters remain fixed during final autonomous evaluation.</p>
+              </div>
+            </details><details id="execution-settings">
+<summary>Execution Configuration</summary>
+<div class="details-body"><p class="source-note">Execution settings for the real-robot system. Runtime measurements are listed under Throughput and Runtime.</p>
+<div class="table-pair">
+<div class="table-wrap">
+<table>
+<thead><tr><th>Reference / execution</th><th>Value</th></tr></thead>
+<tbody>
+
+
+
+<tr><td>Robot command representation</td><td>delta chunk</td></tr>
+<tr><td>Control frequency</td><td>20 Hz</td></tr>
+<tr><td>Replanning interval</td><td>0.5 s</td></tr>
+
+
+<tr><td>VLA token dimension</td><td>2048</td></tr>
+</tbody>
+</table>
+</div>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Online learning / AC</th><th>Value</th></tr></thead>
+<tbody>
+
+
+
+
+<tr><td>Actor snapshot / checkpoint interval</td><td>100 / 1000 steps</td></tr>
+<tr><td>Intervention cost / threshold</td><td>1.0 / 0.5</td></tr>
+<tr><td>Warmup replay / updates</td><td>300 chunks / 5k</td></tr>
+
+
+</tbody>
+</table>
+</div>
+</div>
+
+
+</div>
+</details>
+<details id="contact-dynamics">
+              <summary>Measured contact evolution</summary>
+              <div class="details-body">
+                <p>The measured right-fingertip wrench changes continuously during latch and cup contact. In the cup task, the gripper maintains normal force f<sub>z</sub> to hold the cup while applying downward force f<sub>y</sub> during insertion.</p>
+                <div class="analysis-grid">
+                  <figure>
+                    <button class="figure-zoom" type="button" data-figure-viewer aria-label="Enlarge figure: Measured contact evolution in cup insertion."><img src="static/native/episode_000202_t62_4_fy_fz_overview.png" alt="Measured contact evolution in cup insertion." loading="lazy" width="3240" height="1530" /></button>
+                    <figcaption>Cup insertion: right-fingertip force traces show normal holding force and downward insertion force during placement into the holder.</figcaption>
+                  </figure>
+                  <figure>
+                    <button class="figure-zoom" type="button" data-figure-viewer aria-label="Enlarge figure: Measured contact evolution during initial latch grasping."><img src="static/native/episode_000137_t29_45_overview.png" alt="Measured contact evolution during initial latch grasping." loading="lazy" width="3240" height="2520" /></button>
+                    <figcaption>Initial latch-grasping phase with synchronized camera views, right-fingertip wrench, and action traces.</figcaption>
+                  </figure>
+                  <figure>
+                    <button class="figure-zoom" type="button" data-figure-viewer aria-label="Enlarge figure: Measured contact evolution during latch flipping."><img src="static/native/episode_000137_t32_35_overview.png" alt="Measured contact evolution during latch flipping." loading="lazy" width="3240" height="2520" /></button>
+                    <figcaption>Latch-flipping phase showing continuous contact variation while the latch is being manipulated.</figcaption>
+                  </figure>
+                </div>
+              </div>
+            </details><details id="wrench-examples">
+              <summary>Future-wrench prediction examples</summary>
+              <div class="details-body">
+                <p>The future-wrench head predicts contact trends over the next 50 action steps. The examples cover mechanism contact, environmental insertion contact, and delicate-object contact, pairing current and future observations with predicted and measured wrench norms.</p>
+                <div class="sample-grid">
+                  <figure>
+                    <button class="figure-zoom" type="button" data-figure-viewer aria-label="Enlarge figure: Latch beginning-of-locking observations."><img src="static/native/ep149_frame0435_observations.png" alt="Latch beginning-of-locking observations." loading="lazy" width="1800" height="1090" /></button>
+                    <button class="figure-zoom" type="button" data-figure-viewer aria-label="Enlarge figure: Latch beginning-of-locking future wrench norms."><img src="static/native/ep149_frame0435_future_wrench_norms.png" alt="Latch beginning-of-locking future wrench norms." loading="lazy" width="1334" height="561" /></button>
+                    <figcaption>Latch task: beginning of locking.</figcaption>
+                  </figure>
+                  <figure>
+                    <button class="figure-zoom" type="button" data-figure-viewer aria-label="Enlarge figure: Latch end-of-locking observations."><img src="static/native/ep013_frame0668_observations.png" alt="Latch end-of-locking observations." loading="lazy" width="1802" height="1091" /></button>
+                    <button class="figure-zoom" type="button" data-figure-viewer aria-label="Enlarge figure: Latch end-of-locking future wrench norms."><img src="static/native/ep013_frame0668_future_wrench_norms.png" alt="Latch end-of-locking future wrench norms." loading="lazy" width="1339" height="570" /></button>
+                    <figcaption>Latch task: end of locking.</figcaption>
+                  </figure>
+                  <figure>
+                    <button class="figure-zoom" type="button" data-figure-viewer aria-label="Enlarge figure: Cup grasping observations."><img src="static/native/ep202_frame0986_observations.png" alt="Cup grasping observations." loading="lazy" width="1805" height="1090" /></button>
+                    <button class="figure-zoom" type="button" data-figure-viewer aria-label="Enlarge figure: Cup grasping future wrench norms."><img src="static/native/ep202_frame0986_future_wrench_norms.png" alt="Cup grasping future wrench norms." loading="lazy" width="1333" height="567" /></button>
+                    <figcaption>Cup task: cup grasping.</figcaption>
+                  </figure>
+                  <figure>
+                    <button class="figure-zoom" type="button" data-figure-viewer aria-label="Enlarge figure: Cup insertion observations."><img src="static/native/ep232_frame0951_observations.png" alt="Cup insertion observations." loading="lazy" width="1805" height="1088" /></button>
+                    <button class="figure-zoom" type="button" data-figure-viewer aria-label="Enlarge figure: Cup insertion future wrench norms."><img src="static/native/ep232_frame0951_future_wrench_norms.png" alt="Cup insertion future wrench norms." loading="lazy" width="1336" height="564" /></button>
+                    <figcaption>Cup task: insertion into the holder.</figcaption>
+                  </figure>
+                  <figure>
+                    <button class="figure-zoom" type="button" data-figure-viewer aria-label="Enlarge figure: Egg beginning-of-grasping observations."><img src="static/native/ep420_frame0200_observations.png" alt="Egg beginning-of-grasping observations." loading="lazy" width="1805" height="1092" /></button>
+                    <button class="figure-zoom" type="button" data-figure-viewer aria-label="Enlarge figure: Egg beginning-of-grasping future wrench norms."><img src="static/native/ep420_frame0200_future_wrench_norms.png" alt="Egg beginning-of-grasping future wrench norms." loading="lazy" width="1340" height="565" /></button>
+                    <figcaption>Egg task: beginning of grasping.</figcaption>
+                  </figure>
+                  <figure>
+                    <button class="figure-zoom" type="button" data-figure-viewer aria-label="Enlarge figure: Egg end-of-grasping observations."><img src="static/native/ep424_frame0369_observations.png" alt="Egg end-of-grasping observations." loading="lazy" width="1804" height="1084" /></button>
+                    <button class="figure-zoom" type="button" data-figure-viewer aria-label="Enlarge figure: Egg end-of-grasping future wrench norms."><img src="static/native/ep424_frame0369_future_wrench_norms.png" alt="Egg end-of-grasping future wrench norms." loading="lazy" width="1335" height="560" /></button>
+                    <figcaption>Egg task: end of grasping.</figcaption>
+                  </figure>
+                </div>
+                <figure class="figure-wide">
+                  <button class="figure-zoom" type="button" data-figure-viewer aria-label="Enlarge figure: Six-dimensional future-wrench prediction."><img src="static/native/future_wrench_absolute_left.png" alt="Six-dimensional future-wrench prediction." loading="lazy" width="5867" height="3300" /></button>
+                  <figcaption>Detailed six-dimensional future-wrench prediction on a latch-locking segment for the left-fingertip tactile sensor, complementing the norm-based examples above.</figcaption>
+                </figure>
+              </div>
+            </details>
+<details id="ic-diagnostics">
+              <summary>Intervention-Censored Learning Diagnostics</summary>
+              <div class="details-body">
+                <p>These training diagnostics compare critic scores and actor behavior at policy-to-human takeover boundaries in Latch-Lock. The IC critic supplies the scores used to compare refined actions with the VLA reference.</p>
+                <div class="table-pair">
+                  <div class="table-wrap">
+                    <table>
+                      <thead><tr><th>Boundary distribution</th><th>Value</th></tr></thead>
+                      <tbody>
+                        <tr><td>Episodes with replay</td><td>162</td></tr>
+                        <tr><td>Boundary contexts</td><td>165</td></tr>
+                        <tr><td>Episodes &ge; 1 boundary</td><td>125 / 162 = 77.2%</td></tr>
+                        <tr><td>Episodes &ge; 2 boundaries</td><td>32 / 162 = 19.8%</td></tr>
+                        <tr><td>Episodes &ge; 3 boundaries</td><td>8 / 162 = 4.9%</td></tr>
+                        <tr><td>Mean / median per episode</td><td>1.02 / 1</td></tr>
+                        <tr><td>90th percentile / maximum</td><td>2 / 3</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="table-wrap">
+                    <table>
+                      <thead><tr><th>Actor behavior</th><th>Value</th></tr></thead>
+                      <tbody>
+                        <tr><td>Logged Q<sub>ic</sub>(c, A<sup>data</sup>)</td><td>-1.003</td></tr>
+                        <tr><td>Reference Q<sub>ic</sub>(c, A<sup>ref</sup>)</td><td>-0.573</td></tr>
+                        <tr><td>Final actor Q<sub>ic</sub>(c, A<sup>phi</sup>)</td><td>-0.271</td></tr>
+                        <tr><td>Delta Q<sub>ic</sub>: actor vs. reference</td><td>+0.301</td></tr>
+                        <tr><td>Delta Q<sub>ic</sub>: actor vs. logged data</td><td>+0.731</td></tr>
+                        <tr><td>IC-hinge-active boundary contexts</td><td>21 / 165 = 12.73%</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="table-wrap">
+                  <table>
+                    <thead>
+                      <tr><th>Critic / Action</th><th>Clean Mean</th><th>Boundary Mean</th><th>Clean-Boundary</th><th>AUC</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>Q<sub>ic</sub>(c, A<sup>data</sup>)</td><td>0.073</td><td>-1.003</td><td>1.076</td><td>0.999</td></tr>
+                      <tr><td>Q<sub>ic</sub>(c, A<sup>ref</sup>)</td><td>-0.007</td><td>-0.573</td><td>0.565</td><td>0.913</td></tr>
+                      <tr><td>Q<sub>ic</sub>(c, A<sup>phi</sup>)</td><td>0.091</td><td>-0.271</td><td>0.363</td><td>0.806</td></tr>
+                      <tr><td>Q<sub>task</sub>(c, A<sup>data</sup>)</td><td>0.333</td><td>0.247</td><td>0.086</td><td>0.621</td></tr>
+                      <tr><td>Q<sub>task</sub>(c, A<sup>ref</sup>)</td><td>0.316</td><td>0.241</td><td>0.074</td><td>0.626</td></tr>
+                      <tr><td>Q<sub>task</sub>(c, A<sup>phi</sup>)</td><td>0.351</td><td>0.272</td><td>0.079</td><td>0.618</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="table-pair">
+                  <div class="table-wrap">
+                    <table>
+                      <thead><tr><th>Actor training trend</th><th>Value</th></tr></thead>
+                      <tbody>
+                        <tr><td>IC-hinge-active contexts at 10k</td><td>89 / 165 = 53.94%</td></tr>
+                        <tr><td>IC-hinge-active contexts at 20k</td><td>66 / 165 = 40.00%</td></tr>
+                        <tr><td>IC-hinge-active contexts at final 33k</td><td>21 / 165 = 12.73%</td></tr>
+                        <tr><td>10k active contexts resolved by final actor</td><td>71 / 89 = 79.8%</td></tr>
+                        <tr><td>Mean margin improvement</td><td>+0.421</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="table-wrap">
+                    <table>
+                      <thead><tr><th>Variant / Window</th><th>Human-Controlled Steps</th><th>Average Interventions</th><th>Intervention-Free Episodes</th></tr></thead>
+                      <tbody>
+                        <tr><td>Without IC critic, last 100 ep.</td><td>27.78%</td><td>13.40</td><td>11.0%</td></tr>
+                        <tr><td>Full model, last 100 ep.</td><td>25.32%</td><td>10.68</td><td>29.0%</td></tr>
+                        <tr><td>Without IC critic, last 50 ep.</td><td>25.42%</td><td>13.10</td><td>12.0%</td></tr>
+                        <tr class="best"><td>Full model, last 50 ep.</td><td>18.12%</td><td>7.48</td><td>40.0%</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </details>
+<details id="stage-routing">
+              <summary>Stage Selection and Routing</summary>
+              <div class="details-body">
+                <p>The stage estimator identifies the current task step and selects the corresponding actor or the VLA reference. It is trained offline and frozen during online RL; held-out full-task accuracy is 95.5% at the chunk level.</p>
+                <figure class="figure-wide compact-figure portrait-figure">
+                  <button class="figure-zoom" type="button" data-figure-viewer aria-label="Enlarge figure: Stage estimator architecture."><img src="static/native/stage_estimator_architecture.png" alt="Stage estimator architecture." loading="lazy" width="2351" height="2507" /></button>
+                  <figcaption>The frozen stage estimator uses visual-semantic, proprioceptive, and wrench context. A route change requires confidence above 0.9 for two consecutive chunks. Held-out full-task accuracy is 95.5% at the chunk level.</figcaption>
+                </figure>
+                <figure class="figure-wide routing-trace">
+                  <button class="figure-zoom" type="button" data-figure-viewer aria-label="Enlarge figure: Full-task stage routing alignment between ground-truth annotations and estimated routes."><img src="static/native/combined_latch_contact.png" alt="Full-task stage routing alignment between ground-truth annotations and estimated routes." loading="lazy" width="3020" height="1407" /></button>
+                  <figcaption>Full-task routing trace. Estimated routes align with ground-truth contact-window annotations; remaining mismatches concentrate near gradual phase boundaries rather than stable task stages.</figcaption>
+                </figure>
+              </div>
+            </details>
+<details id="full-task-throughput">
+              <summary>Full-Task Throughput · 60-Minute Evaluation</summary>
+              <div class="details-body">
+                <p>This evaluation measures successful full-task completions within 60 minutes. The Latch training curves measure a single task within 10 minutes.</p>
               <article class="chart-card throughput-card">
                 <h3>Reliability and throughput</h3>
                 <p>Full-task success rate against successful full-task completions within a fixed 60-minute evaluation window.</p>
@@ -451,572 +1174,27 @@
                   </svg>
                 </div>
               </article>
-            </div>
-          </section>
-
-          <section id="ablations" class="subsection">
-            <div class="section-heading">
-              <h2>Ablation Studies</h2>
-              <p>Reference-model ablations isolate the wrench-history token, future-wrench prediction objective, MoE fusion, and physical bypass; online-adaptation ablations isolate wrench-context conditioning and the intervention-censored critic.</p>
-            </div>
-            <div class="table-pair">
-              <div class="table-wrap">
-                <table>
-                  <thead>
-                    <tr><th>Reference Model</th><th>Cup</th><th>Latch</th><th>Egg</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr><td>Without wrench history token</td><td>24/30</td><td>22/30</td><td>22/30</td></tr>
-                    <tr><td>Without future wrench prediction</td><td>25/30</td><td>21/30</td><td>24/30</td></tr>
-                    <tr><td>Without MoE fusion</td><td>18/30</td><td>17/30</td><td>19/30</td></tr>
-                    <tr><td>Without physical bypass</td><td>23/30</td><td>20/30</td><td>21/30</td></tr>
-                    <tr class="best"><td>Full reference, without RL</td><td>25/30</td><td>23/30</td><td>25/30</td></tr>
-                  </tbody>
-                </table>
               </div>
-              <div class="table-wrap">
-                <table>
-                  <thead>
-                    <tr><th>Online Adaptation</th><th>Cup</th><th>Latch</th><th>Egg</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr><td>Without wrench context</td><td>27/30</td><td>27/30</td><td>26/30</td></tr>
-                    <tr><td>Without IC critic</td><td>27/30</td><td>26/30</td><td>28/30</td></tr>
-                    <tr class="best"><td>Full TORL-VLA</td><td>30/30</td><td>29/30</td><td>30/30</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          <section id="online-curves" class="subsection">
-            <div class="section-heading">
-              <h2>Online Adaptation on Latch</h2>
-              <p>All online-adaptation variants use the same frozen wrench-aware reference model and matched online interaction budget. Removing wrench context or the IC critic slows adaptation and reduces final performance on the Latch stage.</p>
-            </div>
-            <div class="paired-figures">
-              <figure>
-                <img src="static/native/throughput_curve.png" alt="Throughput curve during online adaptation." loading="lazy" />
-                <figcaption>Latch online adaptation: throughput measured over successive 10-minute windows as online data increases.</figcaption>
-              </figure>
-              <figure>
-                <img src="static/native/success_rate_curve.png" alt="Success-rate curve during online adaptation." loading="lazy" />
-                <figcaption>Latch online adaptation: checkpoint success rate as online interaction data accumulates.</figcaption>
-              </figure>
-            </div>
-          </section>
-          </section>
-        </section>
-
-        <section id="supplementary-experiments" class="section supplementary-section">
-          <div class="section-heading">
-            <p class="eyebrow">Supplementary Experiments</p>
-            <h2>Supplementary Contact Tasks</h2>
-            <p>Beyond the latch-box benchmark, we add seven supplementary real-robot contact-rich tasks. On five tasks, we compare the base &pi;<sub>0.5</sub> policy with a wrench-aware reference model that incorporates tactile-derived wrench observations and jointly predicts action references with future-wrench cues. On Block Placement and Tube Placement, where fine contact adjustment after initial contact is more critical, we further evaluate online RL refinement on top of the wrench-aware reference.</p>
+            </details><details id="runtime-measurements"><summary>Runtime Measurements</summary><div class="details-body"><div class="table-wrap">
+<table>
+<thead><tr><th>Module / Query</th><th>Timed Calls</th><th>Mean Latency</th></tr></thead>
+<tbody>
+<tr><td>Base π<sub>0.5</sub> policy query (comparison)</td><td>30</td><td>94.7 ms</td></tr>
+<tr><td>TORL-VLA wrench-aware reference query</td><td>30</td><td>100.2 ms</td></tr>
+<tr><td>Stage estimator routing</td><td>30</td><td>1.7 ms</td></tr>
+<tr><td>Stage-specific online actor</td><td>30</td><td>1.1 ms</td></tr>
+<tr class="best"><td>End-to-end TORL-VLA query with actor refinement</td><td>30</td><td>103.0 ms</td></tr>
+</tbody>
+</table>
+</div><p class="note">Latency is measured over warm-call policy queries on a single RTX 4090. The end-to-end TORL-VLA row is measured directly on the actor-refinement route, not obtained by summing separately timed modules.</p></div></details>
           </div>
-
-          <section id="supplementary-reference" class="subsection">
-            <div class="section-heading">
-              <h2>Wrench-Aware Reference</h2>
-              <p>These five tasks evaluate the wrench-aware reference model before online RL. The comparison focuses on whether tactile-derived wrench conditioning and future-wrench prediction improve contact-aware VLA execution without online refinement.</p>
-            </div>
-
-            <div class="supplement-tabs" data-supplement-tabs>
-              <div class="supplement-tab-list" role="tablist" aria-label="Tactile-aware reference task selector">
-                <button class="supplement-tab active" type="button" data-tab-target="tactile-bottle" aria-selected="true">Bottle Reorientation</button>
-                <button class="supplement-tab" type="button" data-tab-target="tactile-cup" aria-selected="false">Cup Grasping</button>
-                <button class="supplement-tab" type="button" data-tab-target="tactile-pingpong" aria-selected="false">Ping-pong Ball</button>
-                <button class="supplement-tab" type="button" data-tab-target="tactile-jelly" aria-selected="false">Jelly Grasping</button>
-                <button class="supplement-tab" type="button" data-tab-target="tactile-whiteboard" aria-selected="false">Whiteboard Erasing</button>
-              </div>
-
-              <div class="supplement-panel active" data-tab-panel="tactile-bottle">
-                <div class="supplement-brief">
-                  <div>
-                    <h3>Bottle Reorientation</h3>
-                    <p>Reorienting the bottle requires contact-aware direction control after the gripper establishes contact with the object.</p>
-                  </div>
-                  <div class="supplement-result-card">
-                    <span>Success Rate</span>
-                    <strong>Bottle Reorientation</strong>
-                    <div class="rate-list">
-                      <div class="rate-head"><span>Method</span><span>Success Rate</span></div>
-                      <div style="--rate: 80;"><span>&pi;<sub>0.5</sub></span><b>80.0%</b><i></i></div>
-                      <div class="highlight" style="--rate: 100;"><span>Wrench-aware reference</span><b>100.0%</b><i></i></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="supplement-video-grid two-up">
-                  <article class="supplement-video-card">
-                    <h4>&pi;<sub>0.5</sub></h4>
-                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/bottle-pi05.mp4" type="video/mp4" /></video>
-                    <p>Base policy succeeds on many trials but remains sensitive to final contact direction.</p>
-                  </article>
-                  <article class="supplement-video-card">
-                    <h4>Wrench-aware reference</h4>
-                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/bottle-wrench.mp4" type="video/mp4" /></video>
-                    <p>Wrench-aware action references improve reorientation consistency.</p>
-                  </article>
-                </div>
-              </div>
-
-              <div class="supplement-panel" data-tab-panel="tactile-cup" hidden>
-                <div class="supplement-brief">
-                  <div>
-                    <h3>Cup Grasping</h3>
-                    <p>Nested-cup friction requires extracting only the top cup without slipping or lifting multiple cups together.</p>
-                  </div>
-                  <div class="supplement-result-card">
-                    <span>Success Rate</span>
-                    <strong>Cup Grasping</strong>
-                    <div class="rate-list">
-                      <div class="rate-head"><span>Method</span><span>Success Rate</span></div>
-                      <div style="--rate: 80;"><span>&pi;<sub>0.5</sub></span><b>80.0%</b><i></i></div>
-                      <div class="highlight" style="--rate: 100;"><span>Wrench-aware reference</span><b>100.0%</b><i></i></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="supplement-video-grid two-up">
-                  <article class="supplement-video-card">
-                    <h4>&pi;<sub>0.5</sub></h4>
-                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/cup-pi05.mp4" type="video/mp4" /></video>
-                    <p>The base policy applies excessive grasping force, preventing the nested cups from being separated.</p>
-                  </article>
-                  <article class="supplement-video-card">
-                    <h4>Wrench-aware reference</h4>
-                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/cup-wrench.mp4" type="video/mp4" /></video>
-                    <p>Wrench-aware reference signals help regulate the contact force appropriately, allowing the nested cups to separate.</p>
-                  </article>
-                </div>
-              </div>
-
-              <div class="supplement-panel" data-tab-panel="tactile-pingpong" hidden>
-                <div class="supplement-brief">
-                  <div>
-                    <h3>Ping-pong Ball</h3>
-                    <p>Ping-pong ball grasping tests force-sensitive handling of a spherical object that can deform under excessive grip force.</p>
-                  </div>
-                  <div class="supplement-result-card">
-                    <span>Success Rate</span>
-                    <strong>Ping-pong Ball</strong>
-                    <div class="rate-list">
-                      <div class="rate-head"><span>Method</span><span>Success Rate</span></div>
-                      <div style="--rate: 80;"><span>&pi;<sub>0.5</sub></span><b>80.0%</b><i></i></div>
-                      <div class="highlight" style="--rate: 90;"><span>Wrench-aware reference</span><b>90.0%</b><i></i></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="supplement-video-grid two-up">
-                  <article class="supplement-video-card">
-                    <h4>&pi;<sub>0.5</sub></h4>
-                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/pingpong-pi05.mp4" type="video/mp4" /></video>
-                    <p>Base policy already reaches high success but must avoid over-compressing the ball.</p>
-                  </article>
-                  <article class="supplement-video-card">
-                    <h4>Wrench-aware reference</h4>
-                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/pingpong-wrench.mp4" type="video/mp4" /></video>
-                    <p>Wrench-aware references preserve high success on this force-sensitive grasp.</p>
-                  </article>
-                </div>
-              </div>
-
-              <div class="supplement-panel" data-tab-panel="tactile-jelly" hidden>
-                <div class="supplement-brief">
-                  <div>
-                    <h3>Jelly Grasping</h3>
-                    <p>Open jelly cups require gentle contact: excessive force can squeeze the jelly out, while insufficient force can cause slip.</p>
-                  </div>
-                  <div class="supplement-result-card">
-                    <span>Success Rate</span>
-                    <strong>Jelly Grasping</strong>
-                    <div class="rate-list">
-                      <div class="rate-head"><span>Method</span><span>Success Rate</span></div>
-                      <div style="--rate: 70;"><span>&pi;<sub>0.5</sub></span><b>70.0%</b><i></i></div>
-                      <div class="highlight" style="--rate: 100;"><span>Wrench-aware reference</span><b>100.0%</b><i></i></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="supplement-video-grid two-up">
-                  <article class="supplement-video-card">
-                    <h4>&pi;<sub>0.5</sub></h4>
-                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/jelly-pi05.mp4" type="video/mp4" /></video>
-                    <p>Base policy is sensitive to slip and excessive squeezing during grasping.</p>
-                  </article>
-                  <article class="supplement-video-card">
-                    <h4>Wrench-aware reference</h4>
-                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/jelly-wrench.mp4" type="video/mp4" /></video>
-                    <p>Wrench-aware references improve gentle handling of the open jelly cup.</p>
-                  </article>
-                </div>
-              </div>
-
-              <div class="supplement-panel" data-tab-panel="tactile-whiteboard" hidden>
-                <div class="supplement-brief">
-                  <div>
-                    <h3>Whiteboard Erasing</h3>
-                    <p>Whiteboard erasing evaluates sustained contact while the end effector moves along the surface.</p>
-                  </div>
-                  <div class="supplement-result-card">
-                    <span>Success Rate</span>
-                    <strong>Whiteboard Erasing</strong>
-                    <div class="rate-list">
-                      <div class="rate-head"><span>Method</span><span>Success Rate</span></div>
-                      <div style="--rate: 100;"><span>&pi;<sub>0.5</sub></span><b>100.0%</b><i></i></div>
-                      <div class="highlight" style="--rate: 100;"><span>Wrench-aware reference</span><b>100.0%</b><i></i></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="supplement-video-grid two-up">
-                  <article class="supplement-video-card">
-                    <h4>&pi;<sub>0.5</sub></h4>
-                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/whiteboard-pi05.mp4" type="video/mp4" /></video>
-                    <p>The base policy already solves this visually observable wiping task reliably.</p>
-                  </article>
-                  <article class="supplement-video-card">
-                    <h4>Wrench-aware reference</h4>
-                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/whiteboard-wrench.mp4" type="video/mp4" /></video>
-                    <p>Wrench-aware reference signals preserve the same reliable wiping performance.</p>
-                  </article>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <section id="supplementary-rl" class="subsection">
-            <div class="section-heading">
-              <h2>Online Refinement</h2>
-              <p>Block Placement and Tube Placement require fine contact adjustment after initial contact. We use them to evaluate the lightweight online RL refiner, comparing &pi;<sub>0.5</sub>, the wrench-aware reference model, and the online-refined policy.</p>
-            </div>
-
-            <div class="supplement-tabs rl-tabs" data-supplement-tabs>
-              <div class="supplement-tab-list" role="tablist" aria-label="Online RL refinement task selector">
-                <button class="supplement-tab active" type="button" data-tab-target="rl-block" aria-selected="true">Block Placement</button>
-                <button class="supplement-tab" type="button" data-tab-target="rl-tube" aria-selected="false">Tube Placement</button>
-              </div>
-
-              <div class="supplement-panel active" data-tab-panel="rl-block">
-                <div class="supplement-brief">
-                  <div>
-                    <h3>Block Placement</h3>
-                    <p>Block placement requires fine contact-guided alignment before the object can be released stably.</p>
-                  </div>
-                  <div class="supplement-result-card rl-result-card">
-                    <span>Reported Metrics</span>
-                    <strong>Block Placement</strong>
-                    <div class="metric-head"><span>Method</span><span>Success Rate</span><span>Avg. Time</span></div>
-                    <div class="metric-pair">
-                      <div>
-                        <span>&pi;<sub>0.5</sub></span>
-                        <b>60.00%</b>
-                        <em>28.81 s</em>
-                      </div>
-                      <div class="mid">
-                        <span>Wrench-aware reference</span>
-                        <b>80.00%</b>
-                        <em>22.93 s</em>
-                      </div>
-                      <div class="highlight">
-                        <span>Wrench + online RL</span>
-                        <b>100.00%</b>
-                        <em>17.95 s</em>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <p class="supplement-note">The table reports task success rate and average completion time for &pi;<sub>0.5</sub>, the wrench-aware reference model, and Wrench + online RL.</p>
-                <div class="supplement-video-grid three-up">
-                  <article class="supplement-video-card">
-                    <h4>&pi;<sub>0.5</sub></h4>
-                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/block-pi05.mp4" type="video/mp4" /></video>
-                    <p>Base policy can leave final alignment errors.</p>
-                  </article>
-                  <article class="supplement-video-card">
-                    <h4>Wrench-aware reference</h4>
-                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/block-wrench.mp4" type="video/mp4" /></video>
-                    <p>Wrench-aware reference uses tactile-derived wrench cues for contact-aware placement.</p>
-                  </article>
-                  <article class="supplement-video-card">
-                    <h4>Wrench + online RL</h4>
-                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/block-rl.mp4" type="video/mp4" /></video>
-                    <p>Online refinement corrects contact alignment before release.</p>
-                  </article>
-                </div>
-              </div>
-
-              <div class="supplement-panel" data-tab-panel="rl-tube" hidden>
-                <div class="supplement-brief">
-                  <div>
-                    <h3>Tube Placement</h3>
-                    <p>Tube placement requires aligning orientation and position with a narrow holder after initial contact.</p>
-                  </div>
-                  <div class="supplement-result-card rl-result-card">
-                    <span>Reported Metrics</span>
-                    <strong>Tube Placement</strong>
-                    <div class="metric-head"><span>Method</span><span>Success Rate</span><span>Avg. Time</span></div>
-                    <div class="metric-pair">
-                      <div>
-                        <span>&pi;<sub>0.5</sub></span>
-                        <b>70.00%</b>
-                        <em>19.93 s</em>
-                      </div>
-                      <div class="mid">
-                        <span>Wrench-aware reference</span>
-                        <b>80.00%</b>
-                        <em>16.53 s</em>
-                      </div>
-                      <div class="highlight">
-                        <span>Wrench + online RL</span>
-                        <b>100.00%</b>
-                        <em>11.97 s</em>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <p class="supplement-note">The table reports task success rate and average completion time for &pi;<sub>0.5</sub>, the wrench-aware reference model, and Wrench + online RL.</p>
-                <div class="supplement-video-grid three-up">
-                  <article class="supplement-video-card">
-                    <h4>&pi;<sub>0.5</sub></h4>
-                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/tube-pi05.mp4" type="video/mp4" /></video>
-                    <p>Base policy can leave angular or translational placement errors.</p>
-                  </article>
-                  <article class="supplement-video-card">
-                    <h4>Wrench-aware reference</h4>
-                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/tube-wrench.mp4" type="video/mp4" /></video>
-                    <p>Wrench-aware reference uses tactile-derived wrench cues for contact-aware placement.</p>
-                  </article>
-                  <article class="supplement-video-card">
-                    <h4>Wrench + online RL</h4>
-                    <video controls playsinline muted preload="auto"><source src="assets/videos/supplementary/tube-rl.mp4" type="video/mp4" /></video>
-                    <p>Online refinement makes the final placement more reliable and faster.</p>
-                  </article>
-                </div>
-              </div>
-            </div>
-          </section>
-        </section>
-
-        <section id="analysis" class="section">
-          <div class="section-heading">
-            <p class="eyebrow">Analysis &amp; Details</p>
-            <h2>Analysis and Implementation Details</h2>
-            <p>These materials inspect measured wrench evolution, future-wrench prediction, intervention-censored critic behavior, stage routing, and deployment implementation. They are process diagnostics and setup details, not additional final autonomous evaluation metrics.</p>
-          </div>
-
-          <div class="accordion">
-            <details>
-              <summary>Measured contact evolution</summary>
-              <div class="details-body">
-                <p>The measured right-fingertip wrench changes continuously during latch and cup contact. In the cup task, the gripper maintains normal force f<sub>z</sub> to hold the cup while applying downward force f<sub>y</sub> during insertion.</p>
-                <div class="analysis-grid">
-                  <figure>
-                    <img src="static/native/episode_000202_t62_4_fy_fz_overview.png" alt="Measured contact evolution in cup insertion." loading="lazy" />
-                    <figcaption>Cup insertion: right-fingertip force traces show normal holding force and downward insertion force during placement into the holder.</figcaption>
-                  </figure>
-                  <figure>
-                    <img src="static/native/episode_000137_t29_45_overview.png" alt="Measured contact evolution during initial latch grasping." loading="lazy" />
-                    <figcaption>Initial latch-grasping phase with synchronized camera views, right-fingertip wrench, and action traces.</figcaption>
-                  </figure>
-                  <figure>
-                    <img src="static/native/episode_000137_t32_35_overview.png" alt="Measured contact evolution during latch flipping." loading="lazy" />
-                    <figcaption>Latch-flipping phase showing continuous contact variation while the latch is being manipulated.</figcaption>
-                  </figure>
-                </div>
-              </div>
-            </details>
-
-            <details>
-              <summary>Future-wrench prediction examples</summary>
-              <div class="details-body">
-                <p>The future-wrench head predicts contact trends over the next 50 action steps. The examples cover mechanism contact, environmental insertion contact, and delicate-object contact, pairing current and future observations with predicted and measured wrench norms.</p>
-                <div class="sample-grid">
-                  <figure>
-                    <img src="static/native/ep149_frame0435_observations.png" alt="Latch beginning-of-locking observations." loading="lazy" />
-                    <img src="static/native/ep149_frame0435_future_wrench_norms.png" alt="Latch beginning-of-locking future wrench norms." loading="lazy" />
-                    <figcaption>Latch task: beginning of locking.</figcaption>
-                  </figure>
-                  <figure>
-                    <img src="static/native/ep013_frame0668_observations.png" alt="Latch end-of-locking observations." loading="lazy" />
-                    <img src="static/native/ep013_frame0668_future_wrench_norms.png" alt="Latch end-of-locking future wrench norms." loading="lazy" />
-                    <figcaption>Latch task: end of locking.</figcaption>
-                  </figure>
-                  <figure>
-                    <img src="static/native/ep202_frame0986_observations.png" alt="Cup grasping observations." loading="lazy" />
-                    <img src="static/native/ep202_frame0986_future_wrench_norms.png" alt="Cup grasping future wrench norms." loading="lazy" />
-                    <figcaption>Cup task: cup grasping.</figcaption>
-                  </figure>
-                  <figure>
-                    <img src="static/native/ep232_frame0951_observations.png" alt="Cup insertion observations." loading="lazy" />
-                    <img src="static/native/ep232_frame0951_future_wrench_norms.png" alt="Cup insertion future wrench norms." loading="lazy" />
-                    <figcaption>Cup task: insertion into the holder.</figcaption>
-                  </figure>
-                  <figure>
-                    <img src="static/native/ep420_frame0200_observations.png" alt="Egg beginning-of-grasping observations." loading="lazy" />
-                    <img src="static/native/ep420_frame0200_future_wrench_norms.png" alt="Egg beginning-of-grasping future wrench norms." loading="lazy" />
-                    <figcaption>Egg task: beginning of grasping.</figcaption>
-                  </figure>
-                  <figure>
-                    <img src="static/native/ep424_frame0369_observations.png" alt="Egg end-of-grasping observations." loading="lazy" />
-                    <img src="static/native/ep424_frame0369_future_wrench_norms.png" alt="Egg end-of-grasping future wrench norms." loading="lazy" />
-                    <figcaption>Egg task: end of grasping.</figcaption>
-                  </figure>
-                </div>
-                <figure class="figure-wide">
-                  <img src="static/native/future_wrench_absolute_left.png" alt="Six-dimensional future-wrench prediction." loading="lazy" />
-                  <figcaption>Detailed six-dimensional future-wrench prediction on a latch-locking segment for the left-fingertip tactile sensor, complementing the norm-based examples above.</figcaption>
-                </figure>
-              </div>
-            </details>
-
-            <details>
-              <summary>Intervention-censored critic analysis</summary>
-              <div class="details-body">
-                <p>These process-level analyses inspect the Latch-Lock contact window. They test whether Q<sub>ic</sub> captures intervention-risk signals and whether the learned actor moves away from low-IC-value actions on policy-to-human boundary contexts.</p>
-                <div class="table-pair">
-                  <div class="table-wrap">
-                    <table>
-                      <thead><tr><th>Boundary distribution</th><th>Value</th></tr></thead>
-                      <tbody>
-                        <tr><td>Episodes with replay</td><td>162</td></tr>
-                        <tr><td>Boundary contexts</td><td>165</td></tr>
-                        <tr><td>Episodes &ge; 1 boundary</td><td>125 / 162 = 77.2%</td></tr>
-                        <tr><td>Episodes &ge; 2 boundaries</td><td>32 / 162 = 19.8%</td></tr>
-                        <tr><td>Episodes &ge; 3 boundaries</td><td>8 / 162 = 4.9%</td></tr>
-                        <tr><td>Mean / median per episode</td><td>1.02 / 1</td></tr>
-                        <tr><td>90th percentile / maximum</td><td>2 / 3</td></tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div class="table-wrap">
-                    <table>
-                      <thead><tr><th>Actor behavior</th><th>Value</th></tr></thead>
-                      <tbody>
-                        <tr><td>Logged Q<sub>ic</sub>(c, A<sup>data</sup>)</td><td>-1.003</td></tr>
-                        <tr><td>Reference Q<sub>ic</sub>(c, A<sup>ref</sup>)</td><td>-0.573</td></tr>
-                        <tr><td>Final actor Q<sub>ic</sub>(c, A<sup>phi</sup>)</td><td>-0.271</td></tr>
-                        <tr><td>Delta Q<sub>ic</sub>: actor vs. reference</td><td>+0.301</td></tr>
-                        <tr><td>Delta Q<sub>ic</sub>: actor vs. logged data</td><td>+0.731</td></tr>
-                        <tr><td>IC-hinge-active boundary contexts</td><td>21 / 165 = 12.73%</td></tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                <div class="table-wrap">
-                  <table>
-                    <thead>
-                      <tr><th>Critic / Action</th><th>Clean Mean</th><th>Boundary Mean</th><th>Clean-Boundary</th><th>AUC</th></tr>
-                    </thead>
-                    <tbody>
-                      <tr><td>Q<sub>ic</sub>(c, A<sup>data</sup>)</td><td>0.073</td><td>-1.003</td><td>1.076</td><td>0.999</td></tr>
-                      <tr><td>Q<sub>ic</sub>(c, A<sup>ref</sup>)</td><td>-0.007</td><td>-0.573</td><td>0.565</td><td>0.913</td></tr>
-                      <tr><td>Q<sub>ic</sub>(c, A<sup>phi</sup>)</td><td>0.091</td><td>-0.271</td><td>0.363</td><td>0.806</td></tr>
-                      <tr><td>Q<sub>task</sub>(c, A<sup>data</sup>)</td><td>0.333</td><td>0.247</td><td>0.086</td><td>0.621</td></tr>
-                      <tr><td>Q<sub>task</sub>(c, A<sup>ref</sup>)</td><td>0.316</td><td>0.241</td><td>0.074</td><td>0.626</td></tr>
-                      <tr><td>Q<sub>task</sub>(c, A<sup>phi</sup>)</td><td>0.351</td><td>0.272</td><td>0.079</td><td>0.618</td></tr>
-                    </tbody>
-                  </table>
-                </div>
-
-                <div class="table-pair">
-                  <div class="table-wrap">
-                    <table>
-                      <thead><tr><th>Actor training trend</th><th>Value</th></tr></thead>
-                      <tbody>
-                        <tr><td>IC-hinge-active contexts at 10k</td><td>89 / 165 = 53.94%</td></tr>
-                        <tr><td>IC-hinge-active contexts at 20k</td><td>66 / 165 = 40.00%</td></tr>
-                        <tr><td>IC-hinge-active contexts at final 33k</td><td>21 / 165 = 12.73%</td></tr>
-                        <tr><td>10k active contexts resolved by final actor</td><td>71 / 89 = 79.8%</td></tr>
-                        <tr><td>Mean margin improvement</td><td>+0.421</td></tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div class="table-wrap">
-                    <table>
-                      <thead><tr><th>Variant / Window</th><th>Human-Controlled Steps</th><th>Average Interventions</th><th>Intervention-Free Episodes</th></tr></thead>
-                      <tbody>
-                        <tr><td>Without IC critic, last 100 ep.</td><td>27.78%</td><td>13.40</td><td>11.0%</td></tr>
-                        <tr><td>Full model, last 100 ep.</td><td>25.32%</td><td>10.68</td><td>29.0%</td></tr>
-                        <tr><td>Without IC critic, last 50 ep.</td><td>25.42%</td><td>13.10</td><td>12.0%</td></tr>
-                        <tr class="best"><td>Full model, last 50 ep.</td><td>18.12%</td><td>7.48</td><td>40.0%</td></tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </details>
-
-            <details open>
-              <summary>Stage routing details</summary>
-              <div class="details-body">
-                <figure class="figure-wide compact-figure portrait-figure">
-                  <img src="static/native/stage_estimator_architecture.png" alt="Stage estimator architecture." loading="lazy" />
-                  <figcaption>Stage routing predicts a stage label and confidence from proprioception, visual-token, and wrench contexts. A route is accepted only after confidence and temporal-stability gating.</figcaption>
-                </figure>
-                <figure class="figure-wide routing-trace">
-                  <img src="static/native/combined_latch_contact.png" alt="Full-task stage routing alignment between ground-truth annotations and estimated routes." loading="lazy" />
-                  <figcaption>Full-task routing trace. Estimated routes align with ground-truth contact-window annotations; remaining mismatches concentrate near gradual phase boundaries rather than stable task stages.</figcaption>
-                </figure>
-              </div>
-            </details>
-
-            <details>
-              <summary>Deployment and implementation details</summary>
-              <div class="details-body">
-                <div class="table-pair">
-                  <div class="table-wrap">
-                    <table>
-                      <thead><tr><th>Reference / execution</th><th>Value</th></tr></thead>
-                      <tbody>
-                        <tr><td>Reference horizon H</td><td>50</td></tr>
-                        <tr><td>Executed horizon K</td><td>10</td></tr>
-                        <tr><td>Action / wrench dimension</td><td>7 / 12</td></tr>
-                        <tr><td>Robot command representation</td><td>delta chunk</td></tr>
-                        <tr><td>Control frequency</td><td>20 Hz</td></tr>
-                        <tr><td>Replanning interval</td><td>0.5 s</td></tr>
-                        <tr><td>Wrench history length / window</td><td>10 / 2.0 s</td></tr>
-                        <tr><td>Future wrench horizon / loss</td><td>50 / 0.3</td></tr>
-                        <tr><td>VLA token dimension</td><td>2048</td></tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div class="table-wrap">
-                    <table>
-                      <thead><tr><th>Online learning / AC</th><th>Value</th></tr></thead>
-                      <tbody>
-                        <tr><td>Discount factor gamma</td><td>0.99</td></tr>
-                        <tr><td>Update-to-data ratio</td><td>5</td></tr>
-                        <tr><td>Critic / actor update frequency</td><td>every step / every 2 steps</td></tr>
-                        <tr><td>Target-network EMA tau</td><td>0.005</td></tr>
-                        <tr><td>Actor snapshot / checkpoint interval</td><td>100 / 1000 steps</td></tr>
-                        <tr><td>Intervention cost / threshold</td><td>1.0 / 0.5</td></tr>
-                        <tr><td>Warmup replay / updates</td><td>300 chunks / 5k</td></tr>
-                        <tr><td>Hidden dimension</td><td>256</td></tr>
-                        <tr><td>AC layers</td><td>Cup 3/3, Egg grasp 3/3, Egg place 3/3, Latch 4/4</td></tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                <div class="table-wrap">
-                  <table>
-                    <thead><tr><th>Module / Query</th><th>Timed Calls</th><th>Mean Latency</th></tr></thead>
-                    <tbody>
-                      <tr><td>Base &pi;<sub>0.5</sub> policy query (comparison)</td><td>30</td><td>94.7 ms</td></tr>
-                      <tr><td>TORL-VLA wrench-aware reference query</td><td>30</td><td>100.2 ms</td></tr>
-                      <tr><td>Stage estimator routing</td><td>30</td><td>1.7 ms</td></tr>
-                      <tr><td>Stage-specific online actor</td><td>30</td><td>1.1 ms</td></tr>
-                      <tr class="best"><td>End-to-end TORL-VLA query with actor refinement</td><td>30</td><td>103.0 ms</td></tr>
-                    </tbody>
-                  </table>
-                </div>
-                <p class="note">Latency is measured over warm-call policy queries on a single RTX 4090. The end-to-end TORL-VLA row is measured directly on the actor-refinement route, not obtained by summing separately timed modules.</p>
-              </div>
-            </details>
-          </div>
-        </section>
+</section>
 
         <section id="citation" class="section">
           <div class="section-heading">
             <p class="eyebrow">Citation</p>
             <h2>Resources and BibTeX</h2>
-            <p>TORL-VLA code will be released. Our earlier open-source RLT reproduction, Yyshadow/openpi-RLT, is already available for readers interested in reference-guided online RL.</p>
+            <p>TORL-VLA code will be released. Our open-source RLT reproduction, Yyshadow/openpi-RLT, is available for readers interested in reference-guided online RL.</p>
           </div>
           <div class="resource-row">
             <a class="btn primary" href="assets/TORL-VLA.pdf"><span>PDF</span> Paper</a>
@@ -1037,9 +1215,14 @@
   </main>
 
   <footer class="footer shell">
-    <p>TORL-VLA project page. Earlier open-source RLT reproduction by us: <a href="https://github.com/Yyshadow/openpi-RLT" target="_blank" rel="noreferrer">Yyshadow/openpi-RLT</a>.</p>
+    <p>TORL-VLA project page. Open-source RLT reproduction: <a href="https://github.com/Yyshadow/openpi-RLT" target="_blank" rel="noreferrer">Yyshadow/openpi-RLT</a>.</p>
   </footer>
 
+  <dialog id="figure-viewer" class="figure-viewer" aria-labelledby="figure-viewer-title">
+    <div class="viewer-header"><h2 id="figure-viewer-title">Figure detail</h2><div class="viewer-actions"><a data-viewer-pdf target="_blank" rel="noreferrer">View PDF</a><button type="button" data-viewer-zoom aria-pressed="false">Zoom in</button><button type="button" data-viewer-close aria-label="Close figure viewer" autofocus>Close</button></div></div>
+    <div class="viewer-body"><img data-viewer-image alt="" /></div>
+    <p class="viewer-caption" data-viewer-caption></p>
+  </dialog>
   <script src="static/app.js"></script>
 </body>
 </html>
